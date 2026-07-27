@@ -9,38 +9,154 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as NewsletterRouteImport } from './routes/newsletter'
+import { Route as AwardsRouteImport } from './routes/awards'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as MagazinesIndexRouteImport } from './routes/magazines.index'
+import { Route as MagazinesIdRouteImport } from './routes/magazines.$id'
+import { Route as CategorySlugRouteImport } from './routes/category.$slug'
+import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
 
+const NewsletterRoute = NewsletterRouteImport.update({
+  id: '/newsletter',
+  path: '/newsletter',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AwardsRoute = AwardsRouteImport.update({
+  id: '/awards',
+  path: '/awards',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MagazinesIndexRoute = MagazinesIndexRouteImport.update({
+  id: '/magazines/',
+  path: '/magazines/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MagazinesIdRoute = MagazinesIdRouteImport.update({
+  id: '/magazines/$id',
+  path: '/magazines/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CategorySlugRoute = CategorySlugRouteImport.update({
+  id: '/category/$slug',
+  path: '/category/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArticleSlugRoute = ArticleSlugRouteImport.update({
+  id: '/article/$slug',
+  path: '/article/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/awards': typeof AwardsRoute
+  '/newsletter': typeof NewsletterRoute
+  '/article/$slug': typeof ArticleSlugRoute
+  '/category/$slug': typeof CategorySlugRoute
+  '/magazines/$id': typeof MagazinesIdRoute
+  '/magazines/': typeof MagazinesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/awards': typeof AwardsRoute
+  '/newsletter': typeof NewsletterRoute
+  '/article/$slug': typeof ArticleSlugRoute
+  '/category/$slug': typeof CategorySlugRoute
+  '/magazines/$id': typeof MagazinesIdRoute
+  '/magazines': typeof MagazinesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/awards': typeof AwardsRoute
+  '/newsletter': typeof NewsletterRoute
+  '/article/$slug': typeof ArticleSlugRoute
+  '/category/$slug': typeof CategorySlugRoute
+  '/magazines/$id': typeof MagazinesIdRoute
+  '/magazines/': typeof MagazinesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/awards'
+    | '/newsletter'
+    | '/article/$slug'
+    | '/category/$slug'
+    | '/magazines/$id'
+    | '/magazines/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/about'
+    | '/awards'
+    | '/newsletter'
+    | '/article/$slug'
+    | '/category/$slug'
+    | '/magazines/$id'
+    | '/magazines'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/awards'
+    | '/newsletter'
+    | '/article/$slug'
+    | '/category/$slug'
+    | '/magazines/$id'
+    | '/magazines/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  AwardsRoute: typeof AwardsRoute
+  NewsletterRoute: typeof NewsletterRoute
+  ArticleSlugRoute: typeof ArticleSlugRoute
+  CategorySlugRoute: typeof CategorySlugRoute
+  MagazinesIdRoute: typeof MagazinesIdRoute
+  MagazinesIndexRoute: typeof MagazinesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/newsletter': {
+      id: '/newsletter'
+      path: '/newsletter'
+      fullPath: '/newsletter'
+      preLoaderRoute: typeof NewsletterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/awards': {
+      id: '/awards'
+      path: '/awards'
+      fullPath: '/awards'
+      preLoaderRoute: typeof AwardsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +164,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/magazines/': {
+      id: '/magazines/'
+      path: '/magazines'
+      fullPath: '/magazines/'
+      preLoaderRoute: typeof MagazinesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/magazines/$id': {
+      id: '/magazines/$id'
+      path: '/magazines/$id'
+      fullPath: '/magazines/$id'
+      preLoaderRoute: typeof MagazinesIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/category/$slug': {
+      id: '/category/$slug'
+      path: '/category/$slug'
+      fullPath: '/category/$slug'
+      preLoaderRoute: typeof CategorySlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/article/$slug': {
+      id: '/article/$slug'
+      path: '/article/$slug'
+      fullPath: '/article/$slug'
+      preLoaderRoute: typeof ArticleSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  AwardsRoute: AwardsRoute,
+  NewsletterRoute: NewsletterRoute,
+  ArticleSlugRoute: ArticleSlugRoute,
+  CategorySlugRoute: CategorySlugRoute,
+  MagazinesIdRoute: MagazinesIdRoute,
+  MagazinesIndexRoute: MagazinesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
