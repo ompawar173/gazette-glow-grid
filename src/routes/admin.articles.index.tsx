@@ -6,7 +6,7 @@ import { logActivity } from "@/lib/activity";
 import { toast } from "sonner";
 import { Plus, Pencil, Trash2 } from "lucide-react";
 
-export const Route = createFileRoute("/admin/articles")({
+export const Route = createFileRoute("/admin/articles/")({
   ssr: false,
   component: ArticlesAdmin,
 });
