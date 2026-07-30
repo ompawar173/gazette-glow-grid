@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as NewsletterRouteImport } from './routes/newsletter'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AwardsRouteImport } from './routes/awards'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
@@ -33,6 +34,11 @@ import { Route as AdminArticlesIdRouteImport } from './routes/admin.articles.$id
 const NewsletterRoute = NewsletterRouteImport.update({
   id: '/newsletter',
   path: '/newsletter',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AwardsRoute = AwardsRouteImport.update({
@@ -135,6 +141,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/awards': typeof AwardsRoute
+  '/contact': typeof ContactRoute
   '/newsletter': typeof NewsletterRoute
   '/admin/activity': typeof AdminActivityRoute
   '/admin/categories': typeof AdminCategoriesRoute
@@ -157,6 +164,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/awards': typeof AwardsRoute
+  '/contact': typeof ContactRoute
   '/newsletter': typeof NewsletterRoute
   '/admin/activity': typeof AdminActivityRoute
   '/admin/categories': typeof AdminCategoriesRoute
@@ -180,6 +188,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/awards': typeof AwardsRoute
+  '/contact': typeof ContactRoute
   '/newsletter': typeof NewsletterRoute
   '/admin/activity': typeof AdminActivityRoute
   '/admin/categories': typeof AdminCategoriesRoute
@@ -204,6 +213,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/awards'
+    | '/contact'
     | '/newsletter'
     | '/admin/activity'
     | '/admin/categories'
@@ -226,6 +236,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/awards'
+    | '/contact'
     | '/newsletter'
     | '/admin/activity'
     | '/admin/categories'
@@ -248,6 +259,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/awards'
+    | '/contact'
     | '/newsletter'
     | '/admin/activity'
     | '/admin/categories'
@@ -271,6 +283,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   AwardsRoute: typeof AwardsRoute
+  ContactRoute: typeof ContactRoute
   NewsletterRoute: typeof NewsletterRoute
   AdminActivityRoute: typeof AdminActivityRoute
   AdminCategoriesRoute: typeof AdminCategoriesRoute
@@ -297,6 +310,13 @@ declare module '@tanstack/react-router' {
       path: '/newsletter'
       fullPath: '/newsletter'
       preLoaderRoute: typeof NewsletterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/awards': {
@@ -439,6 +459,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   AwardsRoute: AwardsRoute,
+  ContactRoute: ContactRoute,
   NewsletterRoute: NewsletterRoute,
   AdminActivityRoute: AdminActivityRoute,
   AdminCategoriesRoute: AdminCategoriesRoute,
