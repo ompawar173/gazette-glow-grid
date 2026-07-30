@@ -7,6 +7,7 @@ import { uploadFile } from "@/lib/upload";
 import { slugify } from "@/lib/slug";
 import { logActivity } from "@/lib/activity";
 import { toast } from "sonner";
+import { StorageImage } from "@/components/site/StorageImage";
 
 interface Props { id?: string; }
 
@@ -110,7 +111,7 @@ export function ArticleForm({ id }: Props) {
           </div>
           <div className="bg-background border border-border p-4 space-y-3">
             <div className="text-xs font-bold uppercase tracking-wider">Featured Image</div>
-            {form.featured_image_url && <img src={form.featured_image_url} alt="" className="w-full aspect-video object-cover" />}
+            {form.featured_image_url && <StorageImage src={form.featured_image_url} className="w-full aspect-video object-cover" />}
             <input type="file" accept="image/*" onChange={handleImage} className="text-xs" />
             <input value={form.featured_image_url ?? ""} onChange={(e) => set("featured_image_url", e.target.value)} placeholder="Or paste URL" className="w-full px-2 py-1.5 border border-border text-xs" />
           </div>

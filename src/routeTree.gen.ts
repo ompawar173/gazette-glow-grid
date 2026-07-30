@@ -10,10 +10,13 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as NewsletterRouteImport } from './routes/newsletter'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AwardsRouteImport } from './routes/awards'
+import { Route as ArticlesRouteImport } from './routes/articles'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as MagazinesIndexRouteImport } from './routes/magazines.index'
+import { Route as IndustryIndexRouteImport } from './routes/industry.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as MagazinesIdRouteImport } from './routes/magazines.$id'
 import { Route as CategorySlugRouteImport } from './routes/category.$slug'
@@ -23,8 +26,10 @@ import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
 import { Route as AdminCategoriesRouteImport } from './routes/admin.categories'
 import { Route as AdminActivityRouteImport } from './routes/admin.activity'
+import { Route as IndustrySlugIndexRouteImport } from './routes/industry.$slug.index'
 import { Route as AdminMagazinesIndexRouteImport } from './routes/admin.magazines.index'
 import { Route as AdminArticlesIndexRouteImport } from './routes/admin.articles.index'
+import { Route as IndustrySlugSubRouteImport } from './routes/industry.$slug.$sub'
 import { Route as AdminMagazinesNewRouteImport } from './routes/admin.magazines.new'
 import { Route as AdminMagazinesIdRouteImport } from './routes/admin.magazines.$id'
 import { Route as AdminArticlesNewRouteImport } from './routes/admin.articles.new'
@@ -35,9 +40,19 @@ const NewsletterRoute = NewsletterRouteImport.update({
   path: '/newsletter',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AwardsRoute = AwardsRouteImport.update({
   id: '/awards',
   path: '/awards',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArticlesRoute = ArticlesRouteImport.update({
+  id: '/articles',
+  path: '/articles',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -53,6 +68,11 @@ const IndexRoute = IndexRouteImport.update({
 const MagazinesIndexRoute = MagazinesIndexRouteImport.update({
   id: '/magazines/',
   path: '/magazines/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndustryIndexRoute = IndustryIndexRouteImport.update({
+  id: '/industry/',
+  path: '/industry/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
@@ -100,6 +120,11 @@ const AdminActivityRoute = AdminActivityRouteImport.update({
   path: '/admin/activity',
   getParentRoute: () => rootRouteImport,
 } as any)
+const IndustrySlugIndexRoute = IndustrySlugIndexRouteImport.update({
+  id: '/industry/$slug/',
+  path: '/industry/$slug/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminMagazinesIndexRoute = AdminMagazinesIndexRouteImport.update({
   id: '/admin/magazines/',
   path: '/admin/magazines/',
@@ -108,6 +133,11 @@ const AdminMagazinesIndexRoute = AdminMagazinesIndexRouteImport.update({
 const AdminArticlesIndexRoute = AdminArticlesIndexRouteImport.update({
   id: '/admin/articles/',
   path: '/admin/articles/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndustrySlugSubRoute = IndustrySlugSubRouteImport.update({
+  id: '/industry/$slug/$sub',
+  path: '/industry/$slug/$sub',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminMagazinesNewRoute = AdminMagazinesNewRouteImport.update({
@@ -134,7 +164,9 @@ const AdminArticlesIdRoute = AdminArticlesIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/articles': typeof ArticlesRoute
   '/awards': typeof AwardsRoute
+  '/contact': typeof ContactRoute
   '/newsletter': typeof NewsletterRoute
   '/admin/activity': typeof AdminActivityRoute
   '/admin/categories': typeof AdminCategoriesRoute
@@ -145,18 +177,23 @@ export interface FileRoutesByFullPath {
   '/category/$slug': typeof CategorySlugRoute
   '/magazines/$id': typeof MagazinesIdRoute
   '/admin/': typeof AdminIndexRoute
+  '/industry/': typeof IndustryIndexRoute
   '/magazines/': typeof MagazinesIndexRoute
   '/admin/articles/$id': typeof AdminArticlesIdRoute
   '/admin/articles/new': typeof AdminArticlesNewRoute
   '/admin/magazines/$id': typeof AdminMagazinesIdRoute
   '/admin/magazines/new': typeof AdminMagazinesNewRoute
+  '/industry/$slug/$sub': typeof IndustrySlugSubRoute
   '/admin/articles/': typeof AdminArticlesIndexRoute
   '/admin/magazines/': typeof AdminMagazinesIndexRoute
+  '/industry/$slug/': typeof IndustrySlugIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/articles': typeof ArticlesRoute
   '/awards': typeof AwardsRoute
+  '/contact': typeof ContactRoute
   '/newsletter': typeof NewsletterRoute
   '/admin/activity': typeof AdminActivityRoute
   '/admin/categories': typeof AdminCategoriesRoute
@@ -167,19 +204,24 @@ export interface FileRoutesByTo {
   '/category/$slug': typeof CategorySlugRoute
   '/magazines/$id': typeof MagazinesIdRoute
   '/admin': typeof AdminIndexRoute
+  '/industry': typeof IndustryIndexRoute
   '/magazines': typeof MagazinesIndexRoute
   '/admin/articles/$id': typeof AdminArticlesIdRoute
   '/admin/articles/new': typeof AdminArticlesNewRoute
   '/admin/magazines/$id': typeof AdminMagazinesIdRoute
   '/admin/magazines/new': typeof AdminMagazinesNewRoute
+  '/industry/$slug/$sub': typeof IndustrySlugSubRoute
   '/admin/articles': typeof AdminArticlesIndexRoute
   '/admin/magazines': typeof AdminMagazinesIndexRoute
+  '/industry/$slug': typeof IndustrySlugIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/articles': typeof ArticlesRoute
   '/awards': typeof AwardsRoute
+  '/contact': typeof ContactRoute
   '/newsletter': typeof NewsletterRoute
   '/admin/activity': typeof AdminActivityRoute
   '/admin/categories': typeof AdminCategoriesRoute
@@ -190,20 +232,25 @@ export interface FileRoutesById {
   '/category/$slug': typeof CategorySlugRoute
   '/magazines/$id': typeof MagazinesIdRoute
   '/admin/': typeof AdminIndexRoute
+  '/industry/': typeof IndustryIndexRoute
   '/magazines/': typeof MagazinesIndexRoute
   '/admin/articles/$id': typeof AdminArticlesIdRoute
   '/admin/articles/new': typeof AdminArticlesNewRoute
   '/admin/magazines/$id': typeof AdminMagazinesIdRoute
   '/admin/magazines/new': typeof AdminMagazinesNewRoute
+  '/industry/$slug/$sub': typeof IndustrySlugSubRoute
   '/admin/articles/': typeof AdminArticlesIndexRoute
   '/admin/magazines/': typeof AdminMagazinesIndexRoute
+  '/industry/$slug/': typeof IndustrySlugIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/about'
+    | '/articles'
     | '/awards'
+    | '/contact'
     | '/newsletter'
     | '/admin/activity'
     | '/admin/categories'
@@ -214,18 +261,23 @@ export interface FileRouteTypes {
     | '/category/$slug'
     | '/magazines/$id'
     | '/admin/'
+    | '/industry/'
     | '/magazines/'
     | '/admin/articles/$id'
     | '/admin/articles/new'
     | '/admin/magazines/$id'
     | '/admin/magazines/new'
+    | '/industry/$slug/$sub'
     | '/admin/articles/'
     | '/admin/magazines/'
+    | '/industry/$slug/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
+    | '/articles'
     | '/awards'
+    | '/contact'
     | '/newsletter'
     | '/admin/activity'
     | '/admin/categories'
@@ -236,18 +288,23 @@ export interface FileRouteTypes {
     | '/category/$slug'
     | '/magazines/$id'
     | '/admin'
+    | '/industry'
     | '/magazines'
     | '/admin/articles/$id'
     | '/admin/articles/new'
     | '/admin/magazines/$id'
     | '/admin/magazines/new'
+    | '/industry/$slug/$sub'
     | '/admin/articles'
     | '/admin/magazines'
+    | '/industry/$slug'
   id:
     | '__root__'
     | '/'
     | '/about'
+    | '/articles'
     | '/awards'
+    | '/contact'
     | '/newsletter'
     | '/admin/activity'
     | '/admin/categories'
@@ -258,19 +315,24 @@ export interface FileRouteTypes {
     | '/category/$slug'
     | '/magazines/$id'
     | '/admin/'
+    | '/industry/'
     | '/magazines/'
     | '/admin/articles/$id'
     | '/admin/articles/new'
     | '/admin/magazines/$id'
     | '/admin/magazines/new'
+    | '/industry/$slug/$sub'
     | '/admin/articles/'
     | '/admin/magazines/'
+    | '/industry/$slug/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  ArticlesRoute: typeof ArticlesRoute
   AwardsRoute: typeof AwardsRoute
+  ContactRoute: typeof ContactRoute
   NewsletterRoute: typeof NewsletterRoute
   AdminActivityRoute: typeof AdminActivityRoute
   AdminCategoriesRoute: typeof AdminCategoriesRoute
@@ -281,13 +343,16 @@ export interface RootRouteChildren {
   CategorySlugRoute: typeof CategorySlugRoute
   MagazinesIdRoute: typeof MagazinesIdRoute
   AdminIndexRoute: typeof AdminIndexRoute
+  IndustryIndexRoute: typeof IndustryIndexRoute
   MagazinesIndexRoute: typeof MagazinesIndexRoute
   AdminArticlesIdRoute: typeof AdminArticlesIdRoute
   AdminArticlesNewRoute: typeof AdminArticlesNewRoute
   AdminMagazinesIdRoute: typeof AdminMagazinesIdRoute
   AdminMagazinesNewRoute: typeof AdminMagazinesNewRoute
+  IndustrySlugSubRoute: typeof IndustrySlugSubRoute
   AdminArticlesIndexRoute: typeof AdminArticlesIndexRoute
   AdminMagazinesIndexRoute: typeof AdminMagazinesIndexRoute
+  IndustrySlugIndexRoute: typeof IndustrySlugIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -299,11 +364,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NewsletterRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/awards': {
       id: '/awards'
       path: '/awards'
       fullPath: '/awards'
       preLoaderRoute: typeof AwardsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/articles': {
+      id: '/articles'
+      path: '/articles'
+      fullPath: '/articles'
+      preLoaderRoute: typeof ArticlesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -325,6 +404,13 @@ declare module '@tanstack/react-router' {
       path: '/magazines'
       fullPath: '/magazines/'
       preLoaderRoute: typeof MagazinesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/industry/': {
+      id: '/industry/'
+      path: '/industry'
+      fullPath: '/industry/'
+      preLoaderRoute: typeof IndustryIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/': {
@@ -390,6 +476,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminActivityRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/industry/$slug/': {
+      id: '/industry/$slug/'
+      path: '/industry/$slug'
+      fullPath: '/industry/$slug/'
+      preLoaderRoute: typeof IndustrySlugIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/magazines/': {
       id: '/admin/magazines/'
       path: '/admin/magazines'
@@ -402,6 +495,13 @@ declare module '@tanstack/react-router' {
       path: '/admin/articles'
       fullPath: '/admin/articles/'
       preLoaderRoute: typeof AdminArticlesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/industry/$slug/$sub': {
+      id: '/industry/$slug/$sub'
+      path: '/industry/$slug/$sub'
+      fullPath: '/industry/$slug/$sub'
+      preLoaderRoute: typeof IndustrySlugSubRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/magazines/new': {
@@ -438,7 +538,9 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  ArticlesRoute: ArticlesRoute,
   AwardsRoute: AwardsRoute,
+  ContactRoute: ContactRoute,
   NewsletterRoute: NewsletterRoute,
   AdminActivityRoute: AdminActivityRoute,
   AdminCategoriesRoute: AdminCategoriesRoute,
@@ -449,24 +551,17 @@ const rootRouteChildren: RootRouteChildren = {
   CategorySlugRoute: CategorySlugRoute,
   MagazinesIdRoute: MagazinesIdRoute,
   AdminIndexRoute: AdminIndexRoute,
+  IndustryIndexRoute: IndustryIndexRoute,
   MagazinesIndexRoute: MagazinesIndexRoute,
   AdminArticlesIdRoute: AdminArticlesIdRoute,
   AdminArticlesNewRoute: AdminArticlesNewRoute,
   AdminMagazinesIdRoute: AdminMagazinesIdRoute,
   AdminMagazinesNewRoute: AdminMagazinesNewRoute,
+  IndustrySlugSubRoute: IndustrySlugSubRoute,
   AdminArticlesIndexRoute: AdminArticlesIndexRoute,
   AdminMagazinesIndexRoute: AdminMagazinesIndexRoute,
+  IndustrySlugIndexRoute: IndustrySlugIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

@@ -2,6 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { SiteLayout } from "@/components/site/SiteLayout";
+import { StorageImage } from "@/components/site/StorageImage";
+import { MagazineCarousel } from "@/components/site/MagazineCarousel";
 
 export const Route = createFileRoute("/magazines/")({
   head: () => ({
@@ -30,7 +32,7 @@ function MagazinesList() {
           {mags.map((m) => (
             <Link key={m.id} to="/magazines/$id" params={{ id: m.id }} className="block group">
               {m.cover_image_url && (
-                <img src={m.cover_image_url} alt={m.title} className="w-full aspect-[3/4] object-cover border border-border group-hover:opacity-90" />
+                <StorageImage src={m.cover_image_url} alt={m.title} className="w-full aspect-[3/4] object-cover border border-border group-hover:opacity-90" />
               )}
               <div className="tag-chip mt-2">{m.issue_month} {m.issue_year}</div>
               <div className="text-base font-bold headline-link group-hover:text-brand">{m.title}</div>

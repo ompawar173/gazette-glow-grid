@@ -5,6 +5,7 @@ import { AdminGate } from "@/components/admin/AdminGate";
 import { uploadFile } from "@/lib/upload";
 import { logActivity } from "@/lib/activity";
 import { toast } from "sonner";
+import { StorageImage } from "@/components/site/StorageImage";
 
 export function MagazineForm({ id }: { id?: string }) {
   const navigate = useNavigate();
@@ -61,7 +62,7 @@ export function MagazineForm({ id }: { id?: string }) {
           </div>
           <div>
             <label className="text-xs font-bold uppercase tracking-wider">Cover Image</label>
-            {form.cover_image_url && <img src={form.cover_image_url} className="w-32 aspect-[3/4] object-cover border border-border mt-1" />}
+            {form.cover_image_url && <StorageImage src={form.cover_image_url} className="w-32 aspect-[3/4] object-cover border border-border mt-1" />}
             <input type="file" accept="image/*" onChange={(e) => upload("magazine-covers", e, "cover_image_url")} className="text-xs mt-2 block" />
           </div>
           <div>
