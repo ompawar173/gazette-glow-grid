@@ -78,10 +78,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "CIO Times — Business & Technology Journal" },
+      { title: "CIO Times — Business & Technology Journal for Enterprise Leaders" },
       { name: "description", content: "In-depth reporting on AI, cloud, cybersecurity, and IT leadership for CIOs and enterprise executives." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:title", content: "CIO Times — Business & Technology Journal for Enterprise Leaders" },
+      { name: "twitter:title", content: "CIO Times — Business & Technology Journal for Enterprise Leaders" },
+      { property: "og:description", content: "In-depth reporting on AI, cloud, cybersecurity, and IT leadership for CIOs and enterprise executives." },
+      { name: "twitter:description", content: "In-depth reporting on AI, cloud, cybersecurity, and IT leadership for CIOs and enterprise executives." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/e041fbea-d7d2-4add-8d3f-9c77ed684057/id-preview-1b7108c0--ab1c7ba6-e738-46cd-beb1-fcf465204f7b.lovable.app-1785446446588.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/e041fbea-d7d2-4add-8d3f-9c77ed684057/id-preview-1b7108c0--ab1c7ba6-e738-46cd-beb1-fcf465204f7b.lovable.app-1785446446588.png" },
     ],
     links: [
       {

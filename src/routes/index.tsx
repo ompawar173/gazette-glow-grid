@@ -13,8 +13,8 @@ export const Route = createFileRoute("/")({
     meta: [
       { title: "CIO Times — Business & Technology Journal for Enterprise Leaders" },
       { name: "description", content: "In-depth reporting on AI, cloud, cybersecurity, and IT leadership for CIOs and enterprise executives." },
-      { property: "og:title", content: "CIO Times — Business & Technology Journal" },
-      { property: "og:description", content: "In-depth reporting for CIOs and enterprise technology leaders." },
+      { property: "og:title", content: "CIO Times — Business & Technology Journal for Enterprise Leaders" },
+      { property: "og:description", content: "In-depth reporting on AI, cloud, cybersecurity, and IT leadership for CIOs and enterprise executives." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
