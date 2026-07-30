@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { StorageImage } from "./StorageImage";
 
 export interface ArticleLite {
   id: string;
@@ -16,7 +17,7 @@ export function ArticleCard({ a, size = "md" }: { a: ArticleLite; size?: "sm" | 
     return (
       <Link to="/article/$slug" params={{ slug: a.slug }} className="flex gap-3 py-3 border-b border-border group">
         {a.featured_image_url && (
-          <img src={a.featured_image_url} alt="" className="w-[100px] h-[70px] object-cover flex-shrink-0" />
+          <StorageImage src={a.featured_image_url} className="w-[100px] h-[70px] object-cover flex-shrink-0" />
         )}
         <div className="min-w-0">
           <div className="tag-chip">{a.category}</div>
@@ -31,7 +32,7 @@ export function ArticleCard({ a, size = "md" }: { a: ArticleLite; size?: "sm" | 
     return (
       <Link to="/article/$slug" params={{ slug: a.slug }} className="block group">
         {a.featured_image_url && (
-          <img src={a.featured_image_url} alt="" className="w-full aspect-[16/9] object-cover mb-3" />
+          <StorageImage src={a.featured_image_url} className="w-full aspect-[16/9] object-cover mb-3" />
         )}
         <div className="tag-chip">{a.category}</div>
         <h2 className="text-2xl md:text-3xl font-bold leading-tight headline-link group-hover:text-brand">
@@ -47,7 +48,7 @@ export function ArticleCard({ a, size = "md" }: { a: ArticleLite; size?: "sm" | 
   return (
     <Link to="/article/$slug" params={{ slug: a.slug }} className="block group">
       {a.featured_image_url && (
-        <img src={a.featured_image_url} alt="" className="w-full h-[190px] object-cover mb-2" />
+        <StorageImage src={a.featured_image_url} className="w-full h-[190px] object-cover mb-2" />
       )}
       <div className="tag-chip">{a.category}</div>
       <h3 className="text-base font-bold leading-snug headline-link group-hover:text-brand line-clamp-3">
