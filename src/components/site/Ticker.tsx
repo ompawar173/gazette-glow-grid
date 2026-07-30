@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { StorageImage } from "./StorageImage";
 
 interface Item {
   slug: string;
@@ -38,7 +39,7 @@ export function Ticker({ items }: { items: Item[] }) {
               className="flex items-center gap-2 group"
             >
               {it.featured_image_url && (
-                <img src={it.featured_image_url} alt="" className="w-16 h-11 object-cover flex-shrink-0" />
+                <StorageImage src={it.featured_image_url} className="w-16 h-11 object-cover flex-shrink-0" />
               )}
               <div className="min-w-0">
                 <div className="tag-chip">{it.category}</div>

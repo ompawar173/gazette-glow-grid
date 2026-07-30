@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { SiteLayout } from "@/components/site/SiteLayout";
+import { StorageImage } from "@/components/site/StorageImage";
 import { ArticleCard, type ArticleLite } from "@/components/site/ArticleCard";
 import { Sidebar } from "@/components/site/Sidebar";
 import { NewsletterSignup } from "@/components/site/NewsletterSignup";
@@ -64,7 +65,7 @@ function ArticlePage() {
             {article.published_at && <span className="text-muted-foreground"> · {new Date(article.published_at).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</span>}
           </div>
           {article.featured_image_url && (
-            <img src={article.featured_image_url} alt={article.title} className="w-full aspect-[16/9] object-cover my-6" />
+            <StorageImage src={article.featured_image_url} alt={article.title} className="w-full aspect-[16/9] object-cover my-6" />
           )}
           <div className="article-body" dangerouslySetInnerHTML={{ __html: article.body }} />
 

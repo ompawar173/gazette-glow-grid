@@ -13,7 +13,15 @@ export interface MagazineLite {
 
 export function MagazineCarousel({ items }: { items: MagazineLite[] }) {
   const [index, setIndex] = useState(0);
+  const [step, setStep] = useState(260);
   const n = items.length;
+
+  useEffect(() => {
+    const onResize = () => setStep(window.innerWidth < 768 ? 150 : 260);
+    onResize();
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
 
   useEffect(() => {
     if (n < 2) return;
@@ -47,7 +55,7 @@ export function MagazineCarousel({ items }: { items: MagazineLite[] }) {
             if (Math.abs(d) > 2) return null;
             const isActive = d === 0;
             const scale = isActive ? 1 : Math.abs(d) === 1 ? 0.72 : 0.55;
-            const translate = d * (window?.innerWidth < 768 ? 150 : 260);
+            const translate = d * step;
             return (
               <div
                 key={m.id}
