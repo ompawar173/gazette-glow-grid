@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { ArticleCard, type ArticleLite } from "@/components/site/ArticleCard";
 
-export const Route = createFileRoute("/industry/$slug")({
+export const Route = createFileRoute("/industry/$slug/")({
   head: () => ({
     meta: [
       { title: "Industry Section — CIO Times" },
