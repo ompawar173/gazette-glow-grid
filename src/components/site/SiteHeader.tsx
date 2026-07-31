@@ -29,10 +29,10 @@ export function SiteHeader() {
       <div className="bg-navy text-navy-foreground text-xs">
         <div className="max-w-[1200px] mx-auto px-4 py-1.5 flex justify-center sm:justify-between items-center">
           <span className="opacity-85">
-            {now.toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}
+            {now ? now.toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" }) : "\u00a0"}
           </span>
           <span className="hidden sm:inline opacity-85 tabular-nums">
-            {now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", second: "2-digit" })}
+            {now ? now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", second: "2-digit" }) : "\u00a0"}
           </span>
         </div>
       </div>
