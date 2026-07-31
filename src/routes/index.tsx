@@ -116,11 +116,10 @@ function Home() {
 
         <Sidebar trending={trending} mostRead={mostRead} magazines={magazines} />
       </div>
-
-      <MagazineCarousel items={magazines} />
     </SiteLayout>
   );
 }
+
 
 function slugFor(name: string) {
   return name.toLowerCase().replace(/&/g, "").replace(/\s+/g, "-").replace(/-+/g, "-");
