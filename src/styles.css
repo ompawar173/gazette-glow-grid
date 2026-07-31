@@ -111,3 +111,18 @@
 }
 .article-body img { max-width: 100%; height: auto; margin: 1em 0; }
 .article-body a { color: var(--brand); text-decoration: underline; }
+
+/* Continuous ticker marquee */
+@keyframes ticker-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: ticker-scroll 45s linear infinite;
+}
+.ticker-viewport:hover .ticker-track { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track { animation: none; }
+}
