@@ -73,7 +73,10 @@ function Home() {
         </div>
       </div>
 
+      <MagazineCarousel items={magazines} />
+
       <div className="max-w-[1200px] mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-10">
+
         <div>
           {featured && (
             <>
@@ -113,11 +116,10 @@ function Home() {
 
         <Sidebar trending={trending} mostRead={mostRead} magazines={magazines} />
       </div>
-
-      <MagazineCarousel items={magazines} />
     </SiteLayout>
   );
 }
+
 
 function slugFor(name: string) {
   return name.toLowerCase().replace(/&/g, "").replace(/\s+/g, "-").replace(/-+/g, "-");
