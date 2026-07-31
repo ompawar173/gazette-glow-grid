@@ -9,7 +9,7 @@ export function SiteHeader() {
   const [cats, setCats] = useState<Category[]>([]);
   const [q, setQ] = useState("");
   const [open, setOpen] = useState(false);
-  const [now, setNow] = useState(() => new Date());
+  const [now, setNow] = useState<Date | null>(null);
 
   useEffect(() => {
     supabase.from("categories").select("name,slug,parent_category").order("name").then(({ data }) => {
