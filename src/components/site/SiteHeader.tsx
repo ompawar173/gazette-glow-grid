@@ -15,6 +15,7 @@ export function SiteHeader() {
     supabase.from("categories").select("name,slug,parent_category").order("name").then(({ data }) => {
       if (data) setCats(data as Category[]);
     });
+    setNow(new Date());
     const t = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(t);
   }, []);
