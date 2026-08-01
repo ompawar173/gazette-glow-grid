@@ -25,7 +25,6 @@ function CategoryPage() {
   const { slug } = Route.useParams();
   const [category, setCategory] = useState<{ name: string; slug: string } | null>(null);
   const [articles, setArticles] = useState<ArticleLite[]>([]);
-  const [magazines, setMagazines] = useState<any[]>([]);
   const [page, setPage] = useState(0);
   const perPage = 12;
 
@@ -33,7 +32,6 @@ function CategoryPage() {
     supabase.from("categories").select("name,slug").eq("slug", slug).maybeSingle().then(({ data }) => {
       if (data) setCategory(data);
     });
-    supabase.from("magazines").select("id,title,cover_image_url,issue_month,issue_year").eq("status", "published").limit(4).then(({ data }) => setMagazines(data ?? []));
   }, [slug]);
 
   useEffect(() => {
@@ -66,7 +64,7 @@ function CategoryPage() {
             <Link to="/" className="text-xs uppercase tracking-widest text-brand font-bold">← Back to home</Link>
           </div>
         </div>
-        <Sidebar trending={articles.slice(0, 5)} mostRead={articles.slice(0, 4)} magazines={magazines} />
+        <Sidebar trending={articles.slice(0, 12)} mostRead={articles.slice(0, 12)} />
       </div>
     </SiteLayout>
   );

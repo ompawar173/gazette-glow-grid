@@ -5,7 +5,7 @@ import { SiteLayout } from "@/components/site/SiteLayout";
 import { StorageImage } from "@/components/site/StorageImage";
 import { ArticleCard, type ArticleLite } from "@/components/site/ArticleCard";
 import { Sidebar } from "@/components/site/Sidebar";
-import { NewsletterSignup } from "@/components/site/NewsletterSignup";
+import { BacklinkList } from "@/components/site/BacklinkList";
 
 export const Route = createFileRoute("/article/$slug")({
   component: ArticlePage,
@@ -21,7 +21,6 @@ function ArticlePage() {
   const { slug } = Route.useParams();
   const [article, setArticle] = useState<Article | null>(null);
   const [related, setRelated] = useState<ArticleLite[]>([]);
-  const [magazines, setMagazines] = useState<any[]>([]);
   const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
@@ -46,7 +45,6 @@ function ArticlePage() {
           .limit(4)
           .then(({ data: r }) => setRelated((r as ArticleLite[]) ?? []));
       });
-    supabase.from("magazines").select("id,title,cover_image_url,issue_month,issue_year").eq("status", "published").limit(4).then(({ data }) => setMagazines(data ?? []));
   }, [slug]);
 
   if (notFound) return <SiteLayout><div className="max-w-[900px] mx-auto px-4 py-16 text-center"><h1 className="text-2xl font-bold">Article not found</h1><Link to="/" className="text-brand mt-3 inline-block">Back home</Link></div></SiteLayout>;
@@ -69,7 +67,7 @@ function ArticlePage() {
           )}
           <div className="article-body" dangerouslySetInnerHTML={{ __html: article.body }} />
 
-          <NewsletterSignup />
+          <BacklinkList targetType="article" targetId={article.id} title="Related Links & Sources" />
 
           {related.length > 0 && (
             <div className="mt-10">
@@ -81,7 +79,7 @@ function ArticlePage() {
             </div>
           )}
         </article>
-        <Sidebar trending={related} mostRead={related} magazines={magazines} />
+        <Sidebar trending={related} mostRead={related} />
       </div>
     </SiteLayout>
   );

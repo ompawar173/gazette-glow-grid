@@ -95,6 +95,42 @@ export type Database = {
         }
         Relationships: []
       }
+      backlinks: {
+        Row: {
+          click_count: number
+          created_at: string
+          id: string
+          label: string
+          note: string | null
+          target_id: string | null
+          target_type: string
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          click_count?: number
+          created_at?: string
+          id?: string
+          label: string
+          note?: string | null
+          target_id?: string | null
+          target_type?: string
+          updated_at?: string
+          url: string
+        }
+        Update: {
+          click_count?: number
+          created_at?: string
+          id?: string
+          label?: string
+          note?: string | null
+          target_id?: string | null
+          target_type?: string
+          updated_at?: string
+          url?: string
+        }
+        Relationships: []
+      }
       categories: {
         Row: {
           created_at: string
@@ -203,6 +239,42 @@ export type Database = {
         }
         Relationships: []
       }
+      page_views: {
+        Row: {
+          city: string | null
+          country: string | null
+          created_at: string
+          device: string | null
+          id: string
+          path: string
+          referrer: string | null
+          region: string | null
+          session_id: string | null
+        }
+        Insert: {
+          city?: string | null
+          country?: string | null
+          created_at?: string
+          device?: string | null
+          id?: string
+          path: string
+          referrer?: string | null
+          region?: string | null
+          session_id?: string | null
+        }
+        Update: {
+          city?: string | null
+          country?: string | null
+          created_at?: string
+          device?: string | null
+          id?: string
+          path?: string
+          referrer?: string | null
+          region?: string | null
+          session_id?: string | null
+        }
+        Relationships: []
+      }
       team_members: {
         Row: {
           active: boolean
@@ -277,6 +349,7 @@ export type Database = {
         Returns: boolean
       }
       increment_article_views: { Args: { _slug: string }; Returns: undefined }
+      increment_backlink_click: { Args: { _id: string }; Returns: undefined }
     }
     Enums: {
       app_role: "admin" | "editor"

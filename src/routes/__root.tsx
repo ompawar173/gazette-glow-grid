@@ -12,6 +12,7 @@ import { Toaster as SonnerToaster } from "sonner";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { PageViewTracker } from "@/components/site/PageViewTracker";
 
 function NotFoundComponent() {
   return (
@@ -121,6 +122,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <PageViewTracker />
       <Outlet />
       <SonnerToaster />
     </QueryClientProvider>

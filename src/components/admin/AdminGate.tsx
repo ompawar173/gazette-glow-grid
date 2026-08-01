@@ -1,7 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { useNavigate, Link, useRouterState } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
-import { LayoutDashboard, FileText, BookOpen, Tag, Mail, Activity, LogOut, ExternalLink } from "lucide-react";
+import { LayoutDashboard, FileText, BookOpen, Tag, Mail, Activity, LogOut, ExternalLink, Link2 as LinkIcon, Users } from "lucide-react";
 
 interface Props { children: ReactNode; title: string; }
 
@@ -9,6 +9,8 @@ export function AdminGate({ children, title }: Props) {
   const navigate = useNavigate();
   const [ready, setReady] = useState(false);
   const [email, setEmail] = useState<string | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [perms, setPerms] = useState<Record<string, Record<string, boolean>>>({});
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   useEffect(() => {
@@ -22,6 +24,12 @@ export function AdminGate({ children, title }: Props) {
         navigate({ to: "/admin/login" });
         return;
       }
+      const admin = roles.some((r: any) => r.role === "admin");
+      setIsAdmin(admin);
+      if (!admin) {
+        const { data: tm } = await supabase.from("team_members").select("permissions").eq("user_id", data.user.id).maybeSingle();
+        setPerms((tm?.permissions as any) ?? {});
+      }
       setEmail(data.user.email ?? "");
       setReady(true);
     });
@@ -33,14 +41,19 @@ export function AdminGate({ children, title }: Props) {
 
   if (!ready) return <div className="p-8">Loading admin…</div>;
 
+  const can = (area: string) => isAdmin || Boolean(perms[area]?.["view"]);
+
   const nav = [
-    { to: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
-    { to: "/admin/articles", label: "Articles", icon: FileText },
-    { to: "/admin/magazines", label: "Magazines", icon: BookOpen },
-    { to: "/admin/categories", label: "Categories", icon: Tag },
-    { to: "/admin/subscribers", label: "Subscribers", icon: Mail },
-    { to: "/admin/activity", label: "Activity Log", icon: Activity },
-  ];
+    { to: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard, show: true },
+    { to: "/admin/articles", label: "Articles", icon: FileText, show: can("articles") },
+    { to: "/admin/magazines", label: "Magazines", icon: BookOpen, show: can("magazines") },
+    { to: "/admin/categories", label: "Categories", icon: Tag, show: can("industries") },
+    { to: "/admin/backlinks", label: "Backlinks", icon: LinkIcon, show: can("backlinks") },
+    { to: "/admin/subscribers", label: "Subscribers", icon: Mail, show: can("subscribers") },
+    { to: "/admin/users", label: "Users", icon: Users, show: isAdmin },
+    { to: "/admin/activity", label: "Activity Log", icon: Activity, show: isAdmin },
+  ].filter((n) => n.show);
+
 
   return (
     <div className="min-h-screen flex bg-secondary/30">

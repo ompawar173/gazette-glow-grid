@@ -23,13 +23,16 @@ export function NewsletterSignup({ compact = false }: { compact?: boolean }) {
 
   return (
     <div className={compact ? "" : "bg-navy text-navy-foreground p-6 my-8"}>
-      <div className="tag-chip !text-brand">Newsletter</div>
-      <h3 className={compact ? "text-lg font-bold mt-1" : "text-2xl font-bold mt-1"}>
-        The Executive Brief
-      </h3>
-      <p className={`opacity-80 text-sm ${compact ? "mt-1" : "mt-2"}`}>
-        Weekly intelligence for CIOs and technology leaders. Delivered every Tuesday.
-      </p>
+      {!compact && (
+        <>
+          <div className="tag-chip !text-brand">Newsletter</div>
+          <h3 className="text-2xl font-bold mt-1">The Executive Brief</h3>
+          <p className="opacity-80 text-sm mt-2">
+            Weekly intelligence for CIOs and technology leaders. Delivered every Tuesday.
+          </p>
+        </>
+      )}
+
       <form onSubmit={submit} className="mt-3 flex gap-2">
         <input
           type="email"
