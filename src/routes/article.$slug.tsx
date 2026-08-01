@@ -5,7 +5,7 @@ import { SiteLayout } from "@/components/site/SiteLayout";
 import { StorageImage } from "@/components/site/StorageImage";
 import { ArticleCard, type ArticleLite } from "@/components/site/ArticleCard";
 import { Sidebar } from "@/components/site/Sidebar";
-import { NewsletterSignup } from "@/components/site/NewsletterSignup";
+import { BacklinkList } from "@/components/site/BacklinkList";
 
 export const Route = createFileRoute("/article/$slug")({
   component: ArticlePage,
@@ -69,7 +69,7 @@ function ArticlePage() {
           )}
           <div className="article-body" dangerouslySetInnerHTML={{ __html: article.body }} />
 
-          <NewsletterSignup />
+          <BacklinkList targetType="article" targetId={article.id} title="Related Links & Sources" />
 
           {related.length > 0 && (
             <div className="mt-10">
@@ -81,7 +81,7 @@ function ArticlePage() {
             </div>
           )}
         </article>
-        <Sidebar trending={related} mostRead={related} magazines={magazines} />
+        <Sidebar trending={related} mostRead={related} />
       </div>
     </SiteLayout>
   );

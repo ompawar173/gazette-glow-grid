@@ -66,7 +66,7 @@ function CategoryPage() {
             <Link to="/" className="text-xs uppercase tracking-widest text-brand font-bold">← Back to home</Link>
           </div>
         </div>
-        <Sidebar trending={articles.slice(0, 5)} mostRead={articles.slice(0, 4)} magazines={magazines} />
+        <Sidebar trending={articles.slice(0, 12)} mostRead={articles.slice(0, 12)} />
       </div>
     </SiteLayout>
   );

@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { StorageImage } from "@/components/site/StorageImage";
 import { resolveStorageUrl } from "@/lib/storage";
+import { BacklinkList } from "@/components/site/BacklinkList";
 
 export const Route = createFileRoute("/magazines/$id")({
   head: () => ({
@@ -75,6 +76,7 @@ function MagazineDetail() {
               <iframe src={pdf} className="w-full h-[800px]" title={m.title} />
             </div>
           )}
+          <BacklinkList targetType="magazine" targetId={m.id} title="Related Links & Sources" />
         </div>
       </div>
     </SiteLayout>
