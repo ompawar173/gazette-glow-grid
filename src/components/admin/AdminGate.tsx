@@ -1,7 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { useNavigate, Link, useRouterState } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
-import { LayoutDashboard, FileText, BookOpen, Tag, Mail, Activity, LogOut, ExternalLink } from "lucide-react";
+import { LayoutDashboard, FileText, BookOpen, Tag, Mail, Activity, LogOut, ExternalLink, Link2 as LinkIcon, Users } from "lucide-react";
 
 interface Props { children: ReactNode; title: string; }
 
