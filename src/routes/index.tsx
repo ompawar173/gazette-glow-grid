@@ -42,8 +42,8 @@ function Home() {
       .then(({ data }) => data && setMagazines(data as MagazineLite[]));
   }, []);
 
-  const trending = articles.slice(0, 5);
-  const mostRead = [...articles].sort((a: any, b: any) => (b.view_count ?? 0) - (a.view_count ?? 0)).slice(0, 4);
+  const trending = articles.slice(0, 12);
+  const mostRead = [...articles].sort((a: any, b: any) => (b.view_count ?? 0) - (a.view_count ?? 0)).slice(0, 12);
   const grouped = useMemo(() => {
     const m: Record<string, ArticleLite[]> = {};
     for (const a of articles) (m[a.category] ??= []).push(a);
