@@ -111,10 +111,10 @@ function Home() {
             </div>
           ))}
 
-          <NewsletterSignup />
         </div>
 
-        <Sidebar trending={trending} mostRead={mostRead} magazines={magazines} />
+        <Sidebar trending={trending} mostRead={mostRead} />
+
       </div>
     </SiteLayout>
   );
