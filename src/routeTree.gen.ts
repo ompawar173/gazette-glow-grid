@@ -26,6 +26,7 @@ import { Route as AdminSubscribersRouteImport } from './routes/admin.subscribers
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
 import { Route as AdminCategoriesRouteImport } from './routes/admin.categories'
+import { Route as AdminBacklinksRouteImport } from './routes/admin.backlinks'
 import { Route as AdminActivityRouteImport } from './routes/admin.activity'
 import { Route as IndustrySlugIndexRouteImport } from './routes/industry.$slug.index'
 import { Route as AdminMagazinesIndexRouteImport } from './routes/admin.magazines.index'
@@ -121,6 +122,11 @@ const AdminCategoriesRoute = AdminCategoriesRouteImport.update({
   path: '/admin/categories',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminBacklinksRoute = AdminBacklinksRouteImport.update({
+  id: '/admin/backlinks',
+  path: '/admin/backlinks',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminActivityRoute = AdminActivityRouteImport.update({
   id: '/admin/activity',
   path: '/admin/activity',
@@ -175,6 +181,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/newsletter': typeof NewsletterRoute
   '/admin/activity': typeof AdminActivityRoute
+  '/admin/backlinks': typeof AdminBacklinksRoute
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/login': typeof AdminLoginRoute
@@ -203,6 +210,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/newsletter': typeof NewsletterRoute
   '/admin/activity': typeof AdminActivityRoute
+  '/admin/backlinks': typeof AdminBacklinksRoute
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/login': typeof AdminLoginRoute
@@ -232,6 +240,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/newsletter': typeof NewsletterRoute
   '/admin/activity': typeof AdminActivityRoute
+  '/admin/backlinks': typeof AdminBacklinksRoute
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/login': typeof AdminLoginRoute
@@ -262,6 +271,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/newsletter'
     | '/admin/activity'
+    | '/admin/backlinks'
     | '/admin/categories'
     | '/admin/dashboard'
     | '/admin/login'
@@ -290,6 +300,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/newsletter'
     | '/admin/activity'
+    | '/admin/backlinks'
     | '/admin/categories'
     | '/admin/dashboard'
     | '/admin/login'
@@ -318,6 +329,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/newsletter'
     | '/admin/activity'
+    | '/admin/backlinks'
     | '/admin/categories'
     | '/admin/dashboard'
     | '/admin/login'
@@ -347,6 +359,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   NewsletterRoute: typeof NewsletterRoute
   AdminActivityRoute: typeof AdminActivityRoute
+  AdminBacklinksRoute: typeof AdminBacklinksRoute
   AdminCategoriesRoute: typeof AdminCategoriesRoute
   AdminDashboardRoute: typeof AdminDashboardRoute
   AdminLoginRoute: typeof AdminLoginRoute
@@ -489,6 +502,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminCategoriesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/backlinks': {
+      id: '/admin/backlinks'
+      path: '/admin/backlinks'
+      fullPath: '/admin/backlinks'
+      preLoaderRoute: typeof AdminBacklinksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/activity': {
       id: '/admin/activity'
       path: '/admin/activity'
@@ -563,6 +583,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   NewsletterRoute: NewsletterRoute,
   AdminActivityRoute: AdminActivityRoute,
+  AdminBacklinksRoute: AdminBacklinksRoute,
   AdminCategoriesRoute: AdminCategoriesRoute,
   AdminDashboardRoute: AdminDashboardRoute,
   AdminLoginRoute: AdminLoginRoute,
