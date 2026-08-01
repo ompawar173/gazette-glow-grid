@@ -83,10 +83,10 @@ export const updateTeamMember = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     await assertAdmin(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const patch: Record<string, unknown> = {};
-    if (data.full_name !== undefined) patch["full_name"] = data.full_name;
-    if (data.active !== undefined) patch["active"] = data.active;
-    if (data.permissions !== undefined) patch["permissions"] = data.permissions;
+    const patch: { full_name?: string; active?: boolean; permissions?: any } = {};
+    if (data.full_name !== undefined) patch.full_name = data.full_name;
+    if (data.active !== undefined) patch.active = data.active;
+    if (data.permissions !== undefined) patch.permissions = data.permissions;
     const { error } = await supabaseAdmin.from("team_members").update(patch).eq("id", data.id);
     if (error) throw new Error(error.message);
     return { ok: true };
