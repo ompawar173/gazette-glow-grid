@@ -121,6 +121,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <PageViewTracker />
       <Outlet />
       <SonnerToaster />
     </QueryClientProvider>
