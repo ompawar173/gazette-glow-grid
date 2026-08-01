@@ -25,7 +25,6 @@ function CategoryPage() {
   const { slug } = Route.useParams();
   const [category, setCategory] = useState<{ name: string; slug: string } | null>(null);
   const [articles, setArticles] = useState<ArticleLite[]>([]);
-  const [magazines, setMagazines] = useState<any[]>([]);
   const [page, setPage] = useState(0);
   const perPage = 12;
 
@@ -33,7 +32,6 @@ function CategoryPage() {
     supabase.from("categories").select("name,slug").eq("slug", slug).maybeSingle().then(({ data }) => {
       if (data) setCategory(data);
     });
-    supabase.from("magazines").select("id,title,cover_image_url,issue_month,issue_year").eq("status", "published").limit(4).then(({ data }) => setMagazines(data ?? []));
   }, [slug]);
 
   useEffect(() => {
