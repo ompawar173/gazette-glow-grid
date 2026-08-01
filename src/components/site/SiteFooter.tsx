@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { NewsletterSignup } from "./NewsletterSignup";
 
 export function SiteFooter() {
   const [industries, setIndustries] = useState<{ name: string; slug: string }[]>([]);
