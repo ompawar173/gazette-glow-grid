@@ -5,7 +5,7 @@ import { SiteLayout } from "@/components/site/SiteLayout";
 import { Ticker } from "@/components/site/Ticker";
 import { ArticleCard, type ArticleLite } from "@/components/site/ArticleCard";
 import { Sidebar } from "@/components/site/Sidebar";
-import { NewsletterSignup } from "@/components/site/NewsletterSignup";
+
 import { MagazineCarousel, type MagazineLite } from "@/components/site/MagazineCarousel";
 
 export const Route = createFileRoute("/")({
