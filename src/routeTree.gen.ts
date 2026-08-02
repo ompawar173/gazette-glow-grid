@@ -10,7 +10,9 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as RssDotxmlRouteImport } from './routes/rss[.]xml'
 import { Route as NewsletterRouteImport } from './routes/newsletter'
+import { Route as NewsSitemapDotxmlRouteImport } from './routes/news-sitemap[.]xml'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AwardsRouteImport } from './routes/awards'
 import { Route as ArticlesRouteImport } from './routes/articles'
@@ -44,9 +46,19 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RssDotxmlRoute = RssDotxmlRouteImport.update({
+  id: '/rss.xml',
+  path: '/rss.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const NewsletterRoute = NewsletterRouteImport.update({
   id: '/newsletter',
   path: '/newsletter',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewsSitemapDotxmlRoute = NewsSitemapDotxmlRouteImport.update({
+  id: '/news-sitemap.xml',
+  path: '/news-sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -191,7 +203,9 @@ export interface FileRoutesByFullPath {
   '/articles': typeof ArticlesRoute
   '/awards': typeof AwardsRoute
   '/contact': typeof ContactRoute
+  '/news-sitemap.xml': typeof NewsSitemapDotxmlRoute
   '/newsletter': typeof NewsletterRoute
+  '/rss.xml': typeof RssDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/activity': typeof AdminActivityRoute
   '/admin/backlinks': typeof AdminBacklinksRoute
@@ -222,7 +236,9 @@ export interface FileRoutesByTo {
   '/articles': typeof ArticlesRoute
   '/awards': typeof AwardsRoute
   '/contact': typeof ContactRoute
+  '/news-sitemap.xml': typeof NewsSitemapDotxmlRoute
   '/newsletter': typeof NewsletterRoute
+  '/rss.xml': typeof RssDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/activity': typeof AdminActivityRoute
   '/admin/backlinks': typeof AdminBacklinksRoute
@@ -254,7 +270,9 @@ export interface FileRoutesById {
   '/articles': typeof ArticlesRoute
   '/awards': typeof AwardsRoute
   '/contact': typeof ContactRoute
+  '/news-sitemap.xml': typeof NewsSitemapDotxmlRoute
   '/newsletter': typeof NewsletterRoute
+  '/rss.xml': typeof RssDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/activity': typeof AdminActivityRoute
   '/admin/backlinks': typeof AdminBacklinksRoute
@@ -287,7 +305,9 @@ export interface FileRouteTypes {
     | '/articles'
     | '/awards'
     | '/contact'
+    | '/news-sitemap.xml'
     | '/newsletter'
+    | '/rss.xml'
     | '/sitemap.xml'
     | '/admin/activity'
     | '/admin/backlinks'
@@ -318,7 +338,9 @@ export interface FileRouteTypes {
     | '/articles'
     | '/awards'
     | '/contact'
+    | '/news-sitemap.xml'
     | '/newsletter'
+    | '/rss.xml'
     | '/sitemap.xml'
     | '/admin/activity'
     | '/admin/backlinks'
@@ -349,7 +371,9 @@ export interface FileRouteTypes {
     | '/articles'
     | '/awards'
     | '/contact'
+    | '/news-sitemap.xml'
     | '/newsletter'
+    | '/rss.xml'
     | '/sitemap.xml'
     | '/admin/activity'
     | '/admin/backlinks'
@@ -381,7 +405,9 @@ export interface RootRouteChildren {
   ArticlesRoute: typeof ArticlesRoute
   AwardsRoute: typeof AwardsRoute
   ContactRoute: typeof ContactRoute
+  NewsSitemapDotxmlRoute: typeof NewsSitemapDotxmlRoute
   NewsletterRoute: typeof NewsletterRoute
+  RssDotxmlRoute: typeof RssDotxmlRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   AdminActivityRoute: typeof AdminActivityRoute
   AdminBacklinksRoute: typeof AdminBacklinksRoute
@@ -416,11 +442,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/rss.xml': {
+      id: '/rss.xml'
+      path: '/rss.xml'
+      fullPath: '/rss.xml'
+      preLoaderRoute: typeof RssDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/newsletter': {
       id: '/newsletter'
       path: '/newsletter'
       fullPath: '/newsletter'
       preLoaderRoute: typeof NewsletterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/news-sitemap.xml': {
+      id: '/news-sitemap.xml'
+      path: '/news-sitemap.xml'
+      fullPath: '/news-sitemap.xml'
+      preLoaderRoute: typeof NewsSitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -621,7 +661,9 @@ const rootRouteChildren: RootRouteChildren = {
   ArticlesRoute: ArticlesRoute,
   AwardsRoute: AwardsRoute,
   ContactRoute: ContactRoute,
+  NewsSitemapDotxmlRoute: NewsSitemapDotxmlRoute,
   NewsletterRoute: NewsletterRoute,
+  RssDotxmlRoute: RssDotxmlRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   AdminActivityRoute: AdminActivityRoute,
   AdminBacklinksRoute: AdminBacklinksRoute,
@@ -649,3 +691,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
