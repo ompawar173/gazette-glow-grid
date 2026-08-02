@@ -55,7 +55,7 @@ export function Sidebar({ trending, mostRead }: {
           {m.window_(mostRead).map((a: ArticleLite, i: number) => (
             <Link key={`${a.id}-${i}`} to="/article/$slug" params={{ slug: a.slug }} className="flex gap-2 py-2 border-b border-border group animate-fade-slide">
               {a.featured_image_url && (
-                <StorageImage src={a.featured_image_url} className="w-[70px] h-[50px] object-cover flex-shrink-0" />
+                <StorageImage src={a.featured_image_url} alt={a.title} width={70} height={50} className="w-[70px] h-[50px] object-cover flex-shrink-0" />
               )}
               <div className="text-xs font-semibold leading-snug headline-link group-hover:text-brand line-clamp-3">
                 {a.title}

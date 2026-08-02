@@ -32,7 +32,7 @@ function MagazinesList() {
           {mags.map((m) => (
             <Link key={m.id} to="/magazines/$id" params={{ id: m.id }} className="block group">
               {m.cover_image_url && (
-                <StorageImage src={m.cover_image_url} alt={m.title} className="w-full aspect-[3/4] object-cover border border-border group-hover:opacity-90" />
+                <StorageImage src={m.cover_image_url} alt={`${m.title} — ${m.issue_month ?? ""} ${m.issue_year ?? ""} issue cover`} width={600} height={800} className="w-full aspect-[3/4] object-cover border border-border group-hover:opacity-90" />
               )}
               <div className="tag-chip mt-2">{m.issue_month} {m.issue_year}</div>
               <div className="text-base font-bold headline-link group-hover:text-brand">{m.title}</div>

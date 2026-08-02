@@ -9,7 +9,10 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as RssDotxmlRouteImport } from './routes/rss[.]xml'
 import { Route as NewsletterRouteImport } from './routes/newsletter'
+import { Route as NewsSitemapDotxmlRouteImport } from './routes/news-sitemap[.]xml'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AwardsRouteImport } from './routes/awards'
 import { Route as ArticlesRouteImport } from './routes/articles'
@@ -36,10 +39,26 @@ import { Route as AdminMagazinesNewRouteImport } from './routes/admin.magazines.
 import { Route as AdminMagazinesIdRouteImport } from './routes/admin.magazines.$id'
 import { Route as AdminArticlesNewRouteImport } from './routes/admin.articles.new'
 import { Route as AdminArticlesIdRouteImport } from './routes/admin.articles.$id'
+import { Route as ApiPublicImgSplatRouteImport } from './routes/api/public/img.$'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RssDotxmlRoute = RssDotxmlRouteImport.update({
+  id: '/rss.xml',
+  path: '/rss.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const NewsletterRoute = NewsletterRouteImport.update({
   id: '/newsletter',
   path: '/newsletter',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewsSitemapDotxmlRoute = NewsSitemapDotxmlRouteImport.update({
+  id: '/news-sitemap.xml',
+  path: '/news-sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -172,6 +191,11 @@ const AdminArticlesIdRoute = AdminArticlesIdRouteImport.update({
   path: '/admin/articles/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicImgSplatRoute = ApiPublicImgSplatRouteImport.update({
+  id: '/api/public/img/$',
+  path: '/api/public/img/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -179,7 +203,10 @@ export interface FileRoutesByFullPath {
   '/articles': typeof ArticlesRoute
   '/awards': typeof AwardsRoute
   '/contact': typeof ContactRoute
+  '/news-sitemap.xml': typeof NewsSitemapDotxmlRoute
   '/newsletter': typeof NewsletterRoute
+  '/rss.xml': typeof RssDotxmlRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/activity': typeof AdminActivityRoute
   '/admin/backlinks': typeof AdminBacklinksRoute
   '/admin/categories': typeof AdminCategoriesRoute
@@ -201,6 +228,7 @@ export interface FileRoutesByFullPath {
   '/admin/articles/': typeof AdminArticlesIndexRoute
   '/admin/magazines/': typeof AdminMagazinesIndexRoute
   '/industry/$slug/': typeof IndustrySlugIndexRoute
+  '/api/public/img/$': typeof ApiPublicImgSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -208,7 +236,10 @@ export interface FileRoutesByTo {
   '/articles': typeof ArticlesRoute
   '/awards': typeof AwardsRoute
   '/contact': typeof ContactRoute
+  '/news-sitemap.xml': typeof NewsSitemapDotxmlRoute
   '/newsletter': typeof NewsletterRoute
+  '/rss.xml': typeof RssDotxmlRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/activity': typeof AdminActivityRoute
   '/admin/backlinks': typeof AdminBacklinksRoute
   '/admin/categories': typeof AdminCategoriesRoute
@@ -230,6 +261,7 @@ export interface FileRoutesByTo {
   '/admin/articles': typeof AdminArticlesIndexRoute
   '/admin/magazines': typeof AdminMagazinesIndexRoute
   '/industry/$slug': typeof IndustrySlugIndexRoute
+  '/api/public/img/$': typeof ApiPublicImgSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -238,7 +270,10 @@ export interface FileRoutesById {
   '/articles': typeof ArticlesRoute
   '/awards': typeof AwardsRoute
   '/contact': typeof ContactRoute
+  '/news-sitemap.xml': typeof NewsSitemapDotxmlRoute
   '/newsletter': typeof NewsletterRoute
+  '/rss.xml': typeof RssDotxmlRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/activity': typeof AdminActivityRoute
   '/admin/backlinks': typeof AdminBacklinksRoute
   '/admin/categories': typeof AdminCategoriesRoute
@@ -260,6 +295,7 @@ export interface FileRoutesById {
   '/admin/articles/': typeof AdminArticlesIndexRoute
   '/admin/magazines/': typeof AdminMagazinesIndexRoute
   '/industry/$slug/': typeof IndustrySlugIndexRoute
+  '/api/public/img/$': typeof ApiPublicImgSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -269,7 +305,10 @@ export interface FileRouteTypes {
     | '/articles'
     | '/awards'
     | '/contact'
+    | '/news-sitemap.xml'
     | '/newsletter'
+    | '/rss.xml'
+    | '/sitemap.xml'
     | '/admin/activity'
     | '/admin/backlinks'
     | '/admin/categories'
@@ -291,6 +330,7 @@ export interface FileRouteTypes {
     | '/admin/articles/'
     | '/admin/magazines/'
     | '/industry/$slug/'
+    | '/api/public/img/$'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -298,7 +338,10 @@ export interface FileRouteTypes {
     | '/articles'
     | '/awards'
     | '/contact'
+    | '/news-sitemap.xml'
     | '/newsletter'
+    | '/rss.xml'
+    | '/sitemap.xml'
     | '/admin/activity'
     | '/admin/backlinks'
     | '/admin/categories'
@@ -320,6 +363,7 @@ export interface FileRouteTypes {
     | '/admin/articles'
     | '/admin/magazines'
     | '/industry/$slug'
+    | '/api/public/img/$'
   id:
     | '__root__'
     | '/'
@@ -327,7 +371,10 @@ export interface FileRouteTypes {
     | '/articles'
     | '/awards'
     | '/contact'
+    | '/news-sitemap.xml'
     | '/newsletter'
+    | '/rss.xml'
+    | '/sitemap.xml'
     | '/admin/activity'
     | '/admin/backlinks'
     | '/admin/categories'
@@ -349,6 +396,7 @@ export interface FileRouteTypes {
     | '/admin/articles/'
     | '/admin/magazines/'
     | '/industry/$slug/'
+    | '/api/public/img/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -357,7 +405,10 @@ export interface RootRouteChildren {
   ArticlesRoute: typeof ArticlesRoute
   AwardsRoute: typeof AwardsRoute
   ContactRoute: typeof ContactRoute
+  NewsSitemapDotxmlRoute: typeof NewsSitemapDotxmlRoute
   NewsletterRoute: typeof NewsletterRoute
+  RssDotxmlRoute: typeof RssDotxmlRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   AdminActivityRoute: typeof AdminActivityRoute
   AdminBacklinksRoute: typeof AdminBacklinksRoute
   AdminCategoriesRoute: typeof AdminCategoriesRoute
@@ -379,15 +430,37 @@ export interface RootRouteChildren {
   AdminArticlesIndexRoute: typeof AdminArticlesIndexRoute
   AdminMagazinesIndexRoute: typeof AdminMagazinesIndexRoute
   IndustrySlugIndexRoute: typeof IndustrySlugIndexRoute
+  ApiPublicImgSplatRoute: typeof ApiPublicImgSplatRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rss.xml': {
+      id: '/rss.xml'
+      path: '/rss.xml'
+      fullPath: '/rss.xml'
+      preLoaderRoute: typeof RssDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/newsletter': {
       id: '/newsletter'
       path: '/newsletter'
       fullPath: '/newsletter'
       preLoaderRoute: typeof NewsletterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/news-sitemap.xml': {
+      id: '/news-sitemap.xml'
+      path: '/news-sitemap.xml'
+      fullPath: '/news-sitemap.xml'
+      preLoaderRoute: typeof NewsSitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -572,6 +645,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminArticlesIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/img/$': {
+      id: '/api/public/img/$'
+      path: '/api/public/img/$'
+      fullPath: '/api/public/img/$'
+      preLoaderRoute: typeof ApiPublicImgSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -581,7 +661,10 @@ const rootRouteChildren: RootRouteChildren = {
   ArticlesRoute: ArticlesRoute,
   AwardsRoute: AwardsRoute,
   ContactRoute: ContactRoute,
+  NewsSitemapDotxmlRoute: NewsSitemapDotxmlRoute,
   NewsletterRoute: NewsletterRoute,
+  RssDotxmlRoute: RssDotxmlRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   AdminActivityRoute: AdminActivityRoute,
   AdminBacklinksRoute: AdminBacklinksRoute,
   AdminCategoriesRoute: AdminCategoriesRoute,
@@ -603,17 +686,8 @@ const rootRouteChildren: RootRouteChildren = {
   AdminArticlesIndexRoute: AdminArticlesIndexRoute,
   AdminMagazinesIndexRoute: AdminMagazinesIndexRoute,
   IndustrySlugIndexRoute: IndustrySlugIndexRoute,
+  ApiPublicImgSplatRoute: ApiPublicImgSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

@@ -70,7 +70,10 @@ export function MagazineCarousel({ items }: { items: MagazineLite[] }) {
                 <Link to="/magazines/$id" params={{ id: m.id }} className="block group">
                   <StorageImage
                     src={m.cover_image_url}
-                    alt={m.title}
+                    alt={`${m.title} — ${m.issue_month ?? ""} ${m.issue_year ?? ""} issue cover`}
+                    width={600}
+                    height={800}
+                    priority={isActive}
                     className="w-[240px] md:w-[300px] aspect-[3/4] object-cover border border-border shadow-[0_18px_40px_-18px_rgba(10,42,102,0.6)] bg-card"
                   />
                   {isActive && (

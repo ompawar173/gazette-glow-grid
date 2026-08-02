@@ -13,6 +13,9 @@ import { Toaster as SonnerToaster } from "sonner";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { PageViewTracker } from "@/components/site/PageViewTracker";
+import { SITE_NAME, graph, organizationSchema, websiteSchema } from "@/lib/seo";
+
+const SUPABASE_ORIGIN = import.meta.env["VITE_SUPABASE_URL"] ?? "https://rjljiqyyntqowstfmoxh.supabase.co";
 
 function NotFoundComponent() {
   return (
@@ -82,18 +85,29 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "CIO Times — Business & Technology Journal for Enterprise Leaders" },
       { name: "description", content: "In-depth reporting on AI, cloud, cybersecurity, and IT leadership for CIOs and enterprise executives." },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: SITE_NAME },
+      { property: "og:locale", content: "en_US" },
+      { name: "theme-color", content: "#0A2A66" },
+      { name: "format-detection", content: "telephone=no" },
+      { name: "robots", content: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" },
       { name: "twitter:card", content: "summary_large_image" },
       { property: "og:title", content: "CIO Times — Business & Technology Journal for Enterprise Leaders" },
       { name: "twitter:title", content: "CIO Times — Business & Technology Journal for Enterprise Leaders" },
       { property: "og:description", content: "In-depth reporting on AI, cloud, cybersecurity, and IT leadership for CIOs and enterprise executives." },
       { name: "twitter:description", content: "In-depth reporting on AI, cloud, cybersecurity, and IT leadership for CIOs and enterprise executives." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/e041fbea-d7d2-4add-8d3f-9c77ed684057/id-preview-1b7108c0--ab1c7ba6-e738-46cd-beb1-fcf465204f7b.lovable.app-1785446446588.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/e041fbea-d7d2-4add-8d3f-9c77ed684057/id-preview-1b7108c0--ab1c7ba6-e738-46cd-beb1-fcf465204f7b.lovable.app-1785446446588.png" },
     ],
     links: [
       {
         rel: "stylesheet",
         href: appCss,
+      },
+      { rel: "preconnect", href: SUPABASE_ORIGIN, crossOrigin: "anonymous" },
+      { rel: "dns-prefetch", href: SUPABASE_ORIGIN },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: graph(organizationSchema, websiteSchema),
       },
     ],
   }),

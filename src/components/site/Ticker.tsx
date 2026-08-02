@@ -28,7 +28,7 @@ export function Ticker({ items }: { items: Item[] }) {
                 className="flex items-center gap-2 group w-[320px] flex-shrink-0 pr-6"
               >
                 {it.featured_image_url && (
-                  <StorageImage src={it.featured_image_url} className="w-16 h-11 object-cover flex-shrink-0" />
+                  <StorageImage src={it.featured_image_url} alt={it.title} width={64} height={44} className="w-16 h-11 object-cover flex-shrink-0" />
                 )}
                 <div className="min-w-0">
                   <div className="tag-chip">{it.category}</div>
