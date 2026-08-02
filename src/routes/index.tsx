@@ -68,7 +68,7 @@ function Home() {
   const categories = data.categories;
 
   const slugFor = (name: string) =>
-    categories.find((c) => c.name === name)?.slug ??
+    (categories as { name: string; slug: string }[]).find((c) => c.name === name)?.slug ??
     name.toLowerCase().replace(/&/g, "").replace(/\s+/g, "-").replace(/-+/g, "-");
 
   const trending = articles.slice(0, 12);

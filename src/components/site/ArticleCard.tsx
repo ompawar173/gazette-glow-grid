@@ -12,7 +12,7 @@ export interface ArticleLite {
   published_at: string | null;
 }
 
-export function ArticleCard({ a, size = "md" }: { a: ArticleLite; size?: "sm" | "md" | "lg" }) {
+export function ArticleCard({ a, size = "md", priority = false }: { a: ArticleLite; size?: "sm" | "md" | "lg"; priority?: boolean }) {
   if (size === "sm") {
     return (
       <Link to="/article/$slug" params={{ slug: a.slug }} className="flex gap-3 py-3 border-b border-border group">
@@ -32,7 +32,7 @@ export function ArticleCard({ a, size = "md" }: { a: ArticleLite; size?: "sm" | 
     return (
       <Link to="/article/$slug" params={{ slug: a.slug }} className="block group">
         {a.featured_image_url && (
-          <StorageImage src={a.featured_image_url} alt={a.title} width={1200} height={675} className="w-full aspect-[16/9] object-cover mb-3" />
+          <StorageImage src={a.featured_image_url} alt={a.title} width={1200} height={675} priority={priority} className="w-full aspect-[16/9] object-cover mb-3" />
         )}
         <div className="tag-chip">{a.category}</div>
         <h2 className="text-2xl md:text-3xl font-bold leading-tight headline-link group-hover:text-brand">
@@ -40,7 +40,12 @@ export function ArticleCard({ a, size = "md" }: { a: ArticleLite; size?: "sm" | 
         </h2>
         {a.excerpt && <p className="text-muted-foreground mt-2 line-clamp-3">{a.excerpt}</p>}
         <div className="text-xs text-muted-foreground mt-2">
-          By {a.author_name} {a.published_at && `· ${new Date(a.published_at).toLocaleDateString()}`}
+          By {a.author_name}{" "}
+          {a.published_at && (
+            <time dateTime={new Date(a.published_at).toISOString()}>
+              · {new Date(a.published_at).toLocaleDateString()}
+            </time>
+          )}
         </div>
       </Link>
     );
