@@ -213,7 +213,7 @@ function ArticlePage() {
               <div className="divider-thick mb-4" />
               <h2 className="text-xl font-bold uppercase tracking-wide mb-4">Related in {article.category}</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {related.map((r) => <ArticleCard key={r.id} a={r as ArticleLite} />)}
+                {(related as ArticleLite[]).map((r) => <ArticleCard key={r.id} a={r} />)}
               </div>
             </section>
           )}
