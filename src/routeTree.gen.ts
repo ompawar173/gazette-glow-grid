@@ -36,6 +36,7 @@ import { Route as AdminMagazinesNewRouteImport } from './routes/admin.magazines.
 import { Route as AdminMagazinesIdRouteImport } from './routes/admin.magazines.$id'
 import { Route as AdminArticlesNewRouteImport } from './routes/admin.articles.new'
 import { Route as AdminArticlesIdRouteImport } from './routes/admin.articles.$id'
+import { Route as ApiPublicImgSplatRouteImport } from './routes/api/public/img.$'
 
 const NewsletterRoute = NewsletterRouteImport.update({
   id: '/newsletter',
@@ -172,6 +173,11 @@ const AdminArticlesIdRoute = AdminArticlesIdRouteImport.update({
   path: '/admin/articles/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicImgSplatRoute = ApiPublicImgSplatRouteImport.update({
+  id: '/api/public/img/$',
+  path: '/api/public/img/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -201,6 +207,7 @@ export interface FileRoutesByFullPath {
   '/admin/articles/': typeof AdminArticlesIndexRoute
   '/admin/magazines/': typeof AdminMagazinesIndexRoute
   '/industry/$slug/': typeof IndustrySlugIndexRoute
+  '/api/public/img/$': typeof ApiPublicImgSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -230,6 +237,7 @@ export interface FileRoutesByTo {
   '/admin/articles': typeof AdminArticlesIndexRoute
   '/admin/magazines': typeof AdminMagazinesIndexRoute
   '/industry/$slug': typeof IndustrySlugIndexRoute
+  '/api/public/img/$': typeof ApiPublicImgSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -260,6 +268,7 @@ export interface FileRoutesById {
   '/admin/articles/': typeof AdminArticlesIndexRoute
   '/admin/magazines/': typeof AdminMagazinesIndexRoute
   '/industry/$slug/': typeof IndustrySlugIndexRoute
+  '/api/public/img/$': typeof ApiPublicImgSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -291,6 +300,7 @@ export interface FileRouteTypes {
     | '/admin/articles/'
     | '/admin/magazines/'
     | '/industry/$slug/'
+    | '/api/public/img/$'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -320,6 +330,7 @@ export interface FileRouteTypes {
     | '/admin/articles'
     | '/admin/magazines'
     | '/industry/$slug'
+    | '/api/public/img/$'
   id:
     | '__root__'
     | '/'
@@ -349,6 +360,7 @@ export interface FileRouteTypes {
     | '/admin/articles/'
     | '/admin/magazines/'
     | '/industry/$slug/'
+    | '/api/public/img/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -379,6 +391,7 @@ export interface RootRouteChildren {
   AdminArticlesIndexRoute: typeof AdminArticlesIndexRoute
   AdminMagazinesIndexRoute: typeof AdminMagazinesIndexRoute
   IndustrySlugIndexRoute: typeof IndustrySlugIndexRoute
+  ApiPublicImgSplatRoute: typeof ApiPublicImgSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -572,6 +585,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminArticlesIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/img/$': {
+      id: '/api/public/img/$'
+      path: '/api/public/img/$'
+      fullPath: '/api/public/img/$'
+      preLoaderRoute: typeof ApiPublicImgSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -603,6 +623,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminArticlesIndexRoute: AdminArticlesIndexRoute,
   AdminMagazinesIndexRoute: AdminMagazinesIndexRoute,
   IndustrySlugIndexRoute: IndustrySlugIndexRoute,
+  ApiPublicImgSplatRoute: ApiPublicImgSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
