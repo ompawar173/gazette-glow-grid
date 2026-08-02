@@ -84,3 +84,44 @@ export const getIndustryPage = createServerFn({ method: "GET" })
     }
     return { parent, child, subs, articles };
   });
+
+export const getHomePage = createServerFn({ method: "GET" }).handler(async () => {
+  const { publicDb } = await import("./public-db.server");
+  const db = publicDb();
+  const [{ data: articles }, { data: magazines }, { data: cats }] = await Promise.all([
+    db
+      .from("articles")
+      .select(`${ARTICLE_LIST_COLS},view_count`)
+      .eq("status", "published")
+      .order("published_at", { ascending: false })
+      .limit(50),
+    db
+      .from("magazines")
+      .select("id,title,cover_image_url,issue_month,issue_year")
+      .eq("status", "published")
+      .order("created_at", { ascending: false }),
+    db.from("categories").select("name,slug,parent_category").order("name"),
+  ]);
+  return { articles: articles ?? [], magazines: magazines ?? [], categories: cats ?? [] };
+});
+
+export const getArticlesIndex = createServerFn({ method: "GET" }).handler(async () => {
+  const { publicDb } = await import("./public-db.server");
+  const { data } = await publicDb()
+    .from("articles")
+    .select(ARTICLE_LIST_COLS)
+    .eq("status", "published")
+    .order("published_at", { ascending: false })
+    .limit(100);
+  return { articles: data ?? [] };
+});
+
+export const getMagazinesIndex = createServerFn({ method: "GET" }).handler(async () => {
+  const { publicDb } = await import("./public-db.server");
+  const { data } = await publicDb()
+    .from("magazines")
+    .select("id,title,cover_image_url,issue_month,issue_year,created_at")
+    .eq("status", "published")
+    .order("created_at", { ascending: false });
+  return { magazines: data ?? [] };
+});
