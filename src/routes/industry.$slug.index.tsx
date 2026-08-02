@@ -88,7 +88,7 @@ function IndustryPage() {
 
         {subs.length > 0 && (
           <nav aria-label="Sub-industries" className="flex flex-wrap gap-2 mt-4">
-            {subs.map((s) => (
+            {(subs as { name: string; slug: string }[]).map((s) => (
               <Link key={s.slug} to="/industry/$slug/$sub" params={{ slug, sub: s.slug }}
                 className="border-2 border-navy text-navy px-3 py-1.5 text-xs font-bold uppercase tracking-wide hover:bg-navy hover:text-navy-foreground">
                 {s.name}
