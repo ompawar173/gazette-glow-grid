@@ -68,7 +68,8 @@ export const getIndustryPage = createServerFn({ method: "GET" })
     const child = data.sub ? (list.find((c) => c.slug === data.sub) ?? null) : null;
     const subs = list.filter((c) => c.parent_category === data.slug);
 
-    let articles: Record<string, unknown>[] = [];
+    type Row = { id: string; slug: string; title: string; category: string; subcategory: string | null; excerpt: string | null; featured_image_url: string | null; author_name: string; published_at: string | null };
+    let articles: Row[] = [];
     if (parent) {
       const q = db
         .from("articles")
@@ -79,7 +80,7 @@ export const getIndustryPage = createServerFn({ method: "GET" })
       const { data: rows } = child
         ? await q.eq("subcategory", child.name)
         : await q.eq("category", parent.name);
-      articles = rows ?? [];
+      articles = (rows ?? []) as Row[];
     }
     return { parent, child, subs, articles };
   });
