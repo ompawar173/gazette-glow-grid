@@ -7,7 +7,9 @@ import { SITE_NAME, absoluteUrl, breadcrumbSchema, graph, pageMeta, truncate } f
 export const Route = createFileRoute("/industry/$slug/$sub")({
   loader: ({ params }) => getIndustryPage({ data: { slug: params.slug, sub: params.sub } }),
   head: ({ params, loaderData }) => {
-    const { parent, child } = loaderData ?? {};
+    const parent = loaderData?.parent;
+    const child = loaderData?.child;
+    const list = loaderData?.articles ?? [];
     const path = `/industry/${params.slug}/${params.sub}`;
     if (!parent || !child) {
       return { meta: [{ title: `Industry — ${SITE_NAME}` }, { name: "robots", content: "noindex, follow" }] };
@@ -19,7 +21,7 @@ export const Route = createFileRoute("/industry/$slug/$sub")({
       title: `${child.name} — ${parent.name} | ${SITE_NAME}`,
       description,
       path,
-      image: loaderData.articles[0]?.featured_image_url ?? null,
+      image: list[0]?.featured_image_url ?? null,
     });
     return {
       ...base,
@@ -35,7 +37,7 @@ export const Route = createFileRoute("/industry/$slug/$sub")({
               description,
               mainEntity: {
                 "@type": "ItemList",
-                itemListElement: loaderData.articles.slice(0, 10).map((a, i) => ({
+                itemListElement: list.slice(0, 10).map((a, i) => ({
                   "@type": "ListItem",
                   position: i + 1,
                   url: absoluteUrl(`/article/${a.slug}`),
