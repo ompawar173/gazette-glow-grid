@@ -17,7 +17,7 @@ export const Route = createFileRoute("/sitemap.xml")({
 
         const [{ data: articles }, { data: magazines }, { data: cats }] = await Promise.all([
           db.from("articles").select("slug,published_at,updated_at").eq("status", "published"),
-          db.from("magazines").select("id,created_at,updated_at").eq("status", "published"),
+          db.from("magazines").select("id,created_at").eq("status", "published"),
           db.from("categories").select("slug,parent_category"),
         ]);
 
@@ -50,7 +50,7 @@ export const Route = createFileRoute("/sitemap.xml")({
         for (const m of magazines ?? []) {
           entries.push({
             path: `/magazines/${m.id}`,
-            lastmod: m.updated_at ?? m.created_at,
+            lastmod: m.created_at,
             changefreq: "monthly",
             priority: "0.6",
           });

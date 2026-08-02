@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as NewsletterRouteImport } from './routes/newsletter'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AwardsRouteImport } from './routes/awards'
@@ -38,6 +39,11 @@ import { Route as AdminArticlesNewRouteImport } from './routes/admin.articles.ne
 import { Route as AdminArticlesIdRouteImport } from './routes/admin.articles.$id'
 import { Route as ApiPublicImgSplatRouteImport } from './routes/api/public/img.$'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const NewsletterRoute = NewsletterRouteImport.update({
   id: '/newsletter',
   path: '/newsletter',
@@ -186,6 +192,7 @@ export interface FileRoutesByFullPath {
   '/awards': typeof AwardsRoute
   '/contact': typeof ContactRoute
   '/newsletter': typeof NewsletterRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/activity': typeof AdminActivityRoute
   '/admin/backlinks': typeof AdminBacklinksRoute
   '/admin/categories': typeof AdminCategoriesRoute
@@ -216,6 +223,7 @@ export interface FileRoutesByTo {
   '/awards': typeof AwardsRoute
   '/contact': typeof ContactRoute
   '/newsletter': typeof NewsletterRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/activity': typeof AdminActivityRoute
   '/admin/backlinks': typeof AdminBacklinksRoute
   '/admin/categories': typeof AdminCategoriesRoute
@@ -247,6 +255,7 @@ export interface FileRoutesById {
   '/awards': typeof AwardsRoute
   '/contact': typeof ContactRoute
   '/newsletter': typeof NewsletterRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/activity': typeof AdminActivityRoute
   '/admin/backlinks': typeof AdminBacklinksRoute
   '/admin/categories': typeof AdminCategoriesRoute
@@ -279,6 +288,7 @@ export interface FileRouteTypes {
     | '/awards'
     | '/contact'
     | '/newsletter'
+    | '/sitemap.xml'
     | '/admin/activity'
     | '/admin/backlinks'
     | '/admin/categories'
@@ -309,6 +319,7 @@ export interface FileRouteTypes {
     | '/awards'
     | '/contact'
     | '/newsletter'
+    | '/sitemap.xml'
     | '/admin/activity'
     | '/admin/backlinks'
     | '/admin/categories'
@@ -339,6 +350,7 @@ export interface FileRouteTypes {
     | '/awards'
     | '/contact'
     | '/newsletter'
+    | '/sitemap.xml'
     | '/admin/activity'
     | '/admin/backlinks'
     | '/admin/categories'
@@ -370,6 +382,7 @@ export interface RootRouteChildren {
   AwardsRoute: typeof AwardsRoute
   ContactRoute: typeof ContactRoute
   NewsletterRoute: typeof NewsletterRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   AdminActivityRoute: typeof AdminActivityRoute
   AdminBacklinksRoute: typeof AdminBacklinksRoute
   AdminCategoriesRoute: typeof AdminCategoriesRoute
@@ -396,6 +409,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/newsletter': {
       id: '/newsletter'
       path: '/newsletter'
@@ -602,6 +622,7 @@ const rootRouteChildren: RootRouteChildren = {
   AwardsRoute: AwardsRoute,
   ContactRoute: ContactRoute,
   NewsletterRoute: NewsletterRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   AdminActivityRoute: AdminActivityRoute,
   AdminBacklinksRoute: AdminBacklinksRoute,
   AdminCategoriesRoute: AdminCategoriesRoute,
