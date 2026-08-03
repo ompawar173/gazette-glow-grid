@@ -41,16 +41,36 @@ export function ArticleForm({ id }: Props) {
     } catch (err: any) { toast.error(err.message); }
   };
 
+  const uniqueSlug = async (base: string) => {
+    let candidate = base;
+    for (let i = 2; i < 60; i++) {
+      const q = supabase.from("articles").select("id").eq("slug", candidate).limit(1);
+      const { data } = id ? await q.neq("id", id) : await q;
+      if (!data || data.length === 0) return candidate;
+      candidate = `${base}-${i}`;
+    }
+    return `${base}-${Date.now()}`;
+  };
+
   const save = async (status: "draft" | "published") => {
     if (!form.title || !form.category) return toast.error("Title and category required");
     setLoading(true);
+    // Never trust whatever was pasted into the slug box (URLs, spaces, symbols).
+    const base = slugify(form.slug || form.title) || slugify(form.title) || `article-${Date.now()}`;
+    const slug = await uniqueSlug(base);
     const payload = {
-      ...form,
-      slug: form.slug || slugify(form.title),
+      title: form.title,
+      slug,
+      category: form.category,
+      subcategory: form.subcategory || null,
+      author_name: form.author_name || "Editorial Team",
+      author_title: form.author_title || null,
+      excerpt: form.excerpt || null,
+      body: form.body ?? "",
+      featured_image_url: form.featured_image_url || null,
       status,
       published_at: status === "published" ? (form.published_at ?? new Date().toISOString()) : null,
     };
-    delete payload.id; delete payload.created_at; delete payload.updated_at; delete payload.view_count;
     let error;
     if (id) {
       ({ error } = await supabase.from("articles").update(payload).eq("id", id));
@@ -58,9 +78,17 @@ export function ArticleForm({ id }: Props) {
       ({ error } = await supabase.from("articles").insert(payload));
     }
     setLoading(false);
-    if (error) return toast.error(error.message);
-    await logActivity(id ? "edited" : "created", "article", id ?? payload.slug);
-    toast.success("Saved");
+    if (error) {
+      const code = (error as any).code;
+      if (code === "23505") return toast.error("An article with this URL already exists — change the slug.");
+      if (code === "42501" || /row-level security/i.test(error.message)) {
+        return toast.error("You don't have permission to publish articles.");
+      }
+      return toast.error(error.message);
+    }
+    set("slug", slug);
+    await logActivity(id ? "edited" : "created", "article", id ?? slug);
+    toast.success(status === "published" ? "Published" : "Draft saved");
     navigate({ to: "/admin/articles" });
   };
 
