@@ -1,7 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { useNavigate, Link, useRouterState } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
-import { LayoutDashboard, FileText, BookOpen, Tag, Mail, Activity, LogOut, ExternalLink, Link2 as LinkIcon, Users } from "lucide-react";
+import { LayoutDashboard, FileText, BookOpen, Tag, Mail, Activity, LogOut, ExternalLink, Link2 as LinkIcon, Users, Files } from "lucide-react";
 
 interface Props { children: ReactNode; title: string; }
 
@@ -47,6 +47,7 @@ export function AdminGate({ children, title }: Props) {
     { to: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard, show: true },
     { to: "/admin/articles", label: "Articles", icon: FileText, show: can("articles") },
     { to: "/admin/magazines", label: "Magazines", icon: BookOpen, show: can("magazines") },
+    { to: "/admin/pages", label: "Pages", icon: Files, show: can("pages") },
     { to: "/admin/categories", label: "Categories", icon: Tag, show: can("industries") },
     { to: "/admin/backlinks", label: "Backlinks", icon: LinkIcon, show: can("backlinks") },
     { to: "/admin/subscribers", label: "Subscribers", icon: Mail, show: can("subscribers") },
@@ -56,25 +57,25 @@ export function AdminGate({ children, title }: Props) {
 
 
   return (
-    <div className="min-h-screen flex bg-secondary/30">
-      <aside className="w-56 bg-navy text-navy-foreground flex flex-col">
-        <Link to="/" className="p-4 border-b border-white/10">
-          <div className="text-lg font-black" style={{ fontFamily: "Georgia,serif" }}>CIO TIMES</div>
+    <div className="min-h-screen flex admin-shell">
+      <aside className="w-60 admin-sidebar flex flex-col">
+        <Link to="/" className="p-4 border-b border-border">
+          <div className="text-lg font-black text-navy" style={{ fontFamily: "Georgia,serif" }}>CIO TIMES</div>
           <div className="text-[10px] uppercase tracking-widest text-brand">Admin</div>
         </Link>
-        <nav className="flex-1 py-2">
+        <nav className="flex-1 py-3">
           {nav.map((n) => {
             const active = pathname.startsWith(n.to);
             const Icon = n.icon;
             return (
-              <Link key={n.to} to={n.to} className={`flex items-center gap-2 px-4 py-2 text-sm hover:bg-white/10 ${active ? "bg-white/10 border-l-2 border-brand" : ""}`}>
+              <Link key={n.to} to={n.to} className={`admin-navlink ${active ? "is-active" : ""}`}>
                 <Icon size={16} /> {n.label}
               </Link>
             );
           })}
         </nav>
-        <div className="p-3 border-t border-white/10 text-xs">
-          <div className="opacity-70 truncate">{email}</div>
+        <div className="p-3 border-t border-border text-xs text-muted-foreground">
+          <div className="truncate">{email}</div>
           <div className="flex gap-2 mt-2">
             <Link to="/" className="flex items-center gap-1 hover:text-brand"><ExternalLink size={12} /> Site</Link>
             <button onClick={async () => { await supabase.auth.signOut(); navigate({ to: "/admin/login" }); }} className="flex items-center gap-1 hover:text-brand ml-auto">
@@ -84,8 +85,8 @@ export function AdminGate({ children, title }: Props) {
         </div>
       </aside>
       <div className="flex-1 min-w-0">
-        <header className="bg-background border-b border-border px-6 py-3">
-          <h1 className="text-lg font-bold">{title}</h1>
+        <header className="bg-background border-b border-border px-6 py-4">
+          <h1 className="text-xl font-bold text-navy">{title}</h1>
         </header>
         <main className="p-6">{children}</main>
       </div>

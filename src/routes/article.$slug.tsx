@@ -183,7 +183,7 @@ function ArticlePage() {
               width={1200}
               height={675}
               priority
-              className="w-full aspect-[16/9] object-cover my-6"
+              className="lead-image my-6"
             />
           )}
           <div className="article-body" dangerouslySetInnerHTML={{ __html: body }} />

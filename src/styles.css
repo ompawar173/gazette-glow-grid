@@ -109,8 +109,82 @@
   color: var(--muted-foreground);
   font-style: italic;
 }
-.article-body img { max-width: 100%; height: auto; margin: 1em 0; }
+.article-body img {
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  max-height: 460px;
+  object-fit: contain;
+  margin: 1.25em auto;
+  display: block;
+}
+@media (max-width: 768px) {
+  .article-body img { max-height: 300px; }
+}
 .article-body a { color: var(--brand); text-decoration: underline; }
+
+/* Featured (lead) image on the article page — never dominate the fold */
+.lead-image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  max-height: 60vh;
+  object-fit: cover;
+  object-position: center;
+}
+@media (max-width: 768px) {
+  .lead-image { max-height: 42vh; }
+}
+
+/* Admin shell — light, bright, low-chrome */
+.admin-shell { background: #f6f7f9; }
+.admin-sidebar {
+  background: #ffffff;
+  color: #1a1d23;
+  border-right: 1px solid #e5e7eb;
+}
+.admin-navlink {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  color: #4b5563;
+  border-left: 3px solid transparent;
+}
+.admin-navlink:hover { background: #f3f4f6; color: #111827; }
+.admin-navlink.is-active {
+  background: color-mix(in srgb, var(--brand) 10%, #fff);
+  color: var(--brand);
+  border-left-color: var(--brand);
+  font-weight: 600;
+}
+.admin-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgb(16 24 40 / 0.04);
+}
+.admin-btn {
+  border-radius: 8px;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  padding: 0.5rem 1rem;
+}
+.admin-btn-primary { background: var(--brand); color: #fff; }
+.admin-btn-primary:hover { filter: brightness(0.94); }
+.admin-btn-ghost { background: #fff; color: #374151; border: 1px solid #e5e7eb; }
+.admin-btn-ghost:hover { background: #f9fafb; }
+.admin-input {
+  width: 100%;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  background: #fff;
+}
+.admin-input:focus { outline: 2px solid color-mix(in srgb, var(--brand) 35%, transparent); outline-offset: 1px; }
 
 /* Continuous ticker marquee */
 @keyframes ticker-scroll {

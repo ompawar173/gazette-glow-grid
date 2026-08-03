@@ -2,6 +2,7 @@ export const PERMISSION_AREAS = [
   { key: "articles", label: "Articles" },
   { key: "magazines", label: "Magazines" },
   { key: "industries", label: "Industries" },
+  { key: "pages", label: "Pages" },
   { key: "backlinks", label: "Backlinks" },
   { key: "subscribers", label: "Subscribers" },
   { key: "messages", label: "Messages" },
