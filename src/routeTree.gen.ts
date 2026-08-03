@@ -32,9 +32,11 @@ import { Route as AdminCategoriesRouteImport } from './routes/admin.categories'
 import { Route as AdminBacklinksRouteImport } from './routes/admin.backlinks'
 import { Route as AdminActivityRouteImport } from './routes/admin.activity'
 import { Route as IndustrySlugIndexRouteImport } from './routes/industry.$slug.index'
+import { Route as AdminPagesIndexRouteImport } from './routes/admin.pages.index'
 import { Route as AdminMagazinesIndexRouteImport } from './routes/admin.magazines.index'
 import { Route as AdminArticlesIndexRouteImport } from './routes/admin.articles.index'
 import { Route as IndustrySlugSubRouteImport } from './routes/industry.$slug.$sub'
+import { Route as AdminPagesIdRouteImport } from './routes/admin.pages.$id'
 import { Route as AdminMagazinesNewRouteImport } from './routes/admin.magazines.new'
 import { Route as AdminMagazinesIdRouteImport } from './routes/admin.magazines.$id'
 import { Route as AdminArticlesNewRouteImport } from './routes/admin.articles.new'
@@ -156,6 +158,11 @@ const IndustrySlugIndexRoute = IndustrySlugIndexRouteImport.update({
   path: '/industry/$slug/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminPagesIndexRoute = AdminPagesIndexRouteImport.update({
+  id: '/admin/pages/',
+  path: '/admin/pages/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminMagazinesIndexRoute = AdminMagazinesIndexRouteImport.update({
   id: '/admin/magazines/',
   path: '/admin/magazines/',
@@ -169,6 +176,11 @@ const AdminArticlesIndexRoute = AdminArticlesIndexRouteImport.update({
 const IndustrySlugSubRoute = IndustrySlugSubRouteImport.update({
   id: '/industry/$slug/$sub',
   path: '/industry/$slug/$sub',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminPagesIdRoute = AdminPagesIdRouteImport.update({
+  id: '/admin/pages/$id',
+  path: '/admin/pages/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminMagazinesNewRoute = AdminMagazinesNewRouteImport.update({
@@ -224,9 +236,11 @@ export interface FileRoutesByFullPath {
   '/admin/articles/new': typeof AdminArticlesNewRoute
   '/admin/magazines/$id': typeof AdminMagazinesIdRoute
   '/admin/magazines/new': typeof AdminMagazinesNewRoute
+  '/admin/pages/$id': typeof AdminPagesIdRoute
   '/industry/$slug/$sub': typeof IndustrySlugSubRoute
   '/admin/articles/': typeof AdminArticlesIndexRoute
   '/admin/magazines/': typeof AdminMagazinesIndexRoute
+  '/admin/pages/': typeof AdminPagesIndexRoute
   '/industry/$slug/': typeof IndustrySlugIndexRoute
   '/api/public/img/$': typeof ApiPublicImgSplatRoute
 }
@@ -257,9 +271,11 @@ export interface FileRoutesByTo {
   '/admin/articles/new': typeof AdminArticlesNewRoute
   '/admin/magazines/$id': typeof AdminMagazinesIdRoute
   '/admin/magazines/new': typeof AdminMagazinesNewRoute
+  '/admin/pages/$id': typeof AdminPagesIdRoute
   '/industry/$slug/$sub': typeof IndustrySlugSubRoute
   '/admin/articles': typeof AdminArticlesIndexRoute
   '/admin/magazines': typeof AdminMagazinesIndexRoute
+  '/admin/pages': typeof AdminPagesIndexRoute
   '/industry/$slug': typeof IndustrySlugIndexRoute
   '/api/public/img/$': typeof ApiPublicImgSplatRoute
 }
@@ -291,9 +307,11 @@ export interface FileRoutesById {
   '/admin/articles/new': typeof AdminArticlesNewRoute
   '/admin/magazines/$id': typeof AdminMagazinesIdRoute
   '/admin/magazines/new': typeof AdminMagazinesNewRoute
+  '/admin/pages/$id': typeof AdminPagesIdRoute
   '/industry/$slug/$sub': typeof IndustrySlugSubRoute
   '/admin/articles/': typeof AdminArticlesIndexRoute
   '/admin/magazines/': typeof AdminMagazinesIndexRoute
+  '/admin/pages/': typeof AdminPagesIndexRoute
   '/industry/$slug/': typeof IndustrySlugIndexRoute
   '/api/public/img/$': typeof ApiPublicImgSplatRoute
 }
@@ -326,9 +344,11 @@ export interface FileRouteTypes {
     | '/admin/articles/new'
     | '/admin/magazines/$id'
     | '/admin/magazines/new'
+    | '/admin/pages/$id'
     | '/industry/$slug/$sub'
     | '/admin/articles/'
     | '/admin/magazines/'
+    | '/admin/pages/'
     | '/industry/$slug/'
     | '/api/public/img/$'
   fileRoutesByTo: FileRoutesByTo
@@ -359,9 +379,11 @@ export interface FileRouteTypes {
     | '/admin/articles/new'
     | '/admin/magazines/$id'
     | '/admin/magazines/new'
+    | '/admin/pages/$id'
     | '/industry/$slug/$sub'
     | '/admin/articles'
     | '/admin/magazines'
+    | '/admin/pages'
     | '/industry/$slug'
     | '/api/public/img/$'
   id:
@@ -392,9 +414,11 @@ export interface FileRouteTypes {
     | '/admin/articles/new'
     | '/admin/magazines/$id'
     | '/admin/magazines/new'
+    | '/admin/pages/$id'
     | '/industry/$slug/$sub'
     | '/admin/articles/'
     | '/admin/magazines/'
+    | '/admin/pages/'
     | '/industry/$slug/'
     | '/api/public/img/$'
   fileRoutesById: FileRoutesById
@@ -426,9 +450,11 @@ export interface RootRouteChildren {
   AdminArticlesNewRoute: typeof AdminArticlesNewRoute
   AdminMagazinesIdRoute: typeof AdminMagazinesIdRoute
   AdminMagazinesNewRoute: typeof AdminMagazinesNewRoute
+  AdminPagesIdRoute: typeof AdminPagesIdRoute
   IndustrySlugSubRoute: typeof IndustrySlugSubRoute
   AdminArticlesIndexRoute: typeof AdminArticlesIndexRoute
   AdminMagazinesIndexRoute: typeof AdminMagazinesIndexRoute
+  AdminPagesIndexRoute: typeof AdminPagesIndexRoute
   IndustrySlugIndexRoute: typeof IndustrySlugIndexRoute
   ApiPublicImgSplatRoute: typeof ApiPublicImgSplatRoute
 }
@@ -596,6 +622,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndustrySlugIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/pages/': {
+      id: '/admin/pages/'
+      path: '/admin/pages'
+      fullPath: '/admin/pages/'
+      preLoaderRoute: typeof AdminPagesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/magazines/': {
       id: '/admin/magazines/'
       path: '/admin/magazines'
@@ -615,6 +648,13 @@ declare module '@tanstack/react-router' {
       path: '/industry/$slug/$sub'
       fullPath: '/industry/$slug/$sub'
       preLoaderRoute: typeof IndustrySlugSubRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/pages/$id': {
+      id: '/admin/pages/$id'
+      path: '/admin/pages/$id'
+      fullPath: '/admin/pages/$id'
+      preLoaderRoute: typeof AdminPagesIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/magazines/new': {
@@ -682,9 +722,11 @@ const rootRouteChildren: RootRouteChildren = {
   AdminArticlesNewRoute: AdminArticlesNewRoute,
   AdminMagazinesIdRoute: AdminMagazinesIdRoute,
   AdminMagazinesNewRoute: AdminMagazinesNewRoute,
+  AdminPagesIdRoute: AdminPagesIdRoute,
   IndustrySlugSubRoute: IndustrySlugSubRoute,
   AdminArticlesIndexRoute: AdminArticlesIndexRoute,
   AdminMagazinesIndexRoute: AdminMagazinesIndexRoute,
+  AdminPagesIndexRoute: AdminPagesIndexRoute,
   IndustrySlugIndexRoute: IndustrySlugIndexRoute,
   ApiPublicImgSplatRoute: ApiPublicImgSplatRoute,
 }
