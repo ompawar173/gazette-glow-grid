@@ -1,15 +1,21 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
+import { getSitePage } from "@/lib/pages.functions";
+import { pageMeta } from "@/lib/seo";
 
 export const Route = createFileRoute("/awards")({
-  head: () => ({
-    meta: [
-      { title: "Awards — CIO Times" },
-      { name: "description", content: "The CIO Times Awards recognize excellence in enterprise technology leadership." },
-      { property: "og:title", content: "Awards — CIO Times" },
-      { property: "og:description", content: "Recognizing excellence in enterprise technology leadership." },
-    ],
-  }),
+  loader: () => getSitePage({ data: { slug: "awards" } }),
+  head: ({ loaderData }) => {
+    const p = loaderData?.page;
+    return pageMeta({
+      title: p?.seo_title || `${p?.title ?? "Awards"} — CIO Times`,
+      description:
+        p?.seo_description ||
+        "The CIO Times Awards recognize excellence in enterprise technology leadership.",
+      path: "/awards",
+      image: p?.hero_image_url ?? null,
+    });
+  },
   component: Awards,
 });
 
@@ -22,21 +28,29 @@ const AWARDS = [
 ];
 
 function Awards() {
+  const { page } = Route.useLoaderData();
+
   return (
     <SiteLayout>
       <div className="max-w-[1000px] mx-auto px-4 py-10">
         <div className="divider-thick mb-3" />
-        <h1 className="text-4xl font-bold">The CIO Times Awards</h1>
-        <p className="text-muted-foreground mt-2">Recognizing the leaders and teams defining enterprise technology.</p>
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-          {AWARDS.map((a) => (
-            <div key={a.name} className="border border-border p-6">
-              <div className="tag-chip">2026 Category</div>
-              <h3 className="text-xl font-bold mt-1">{a.name}</h3>
-              <p className="text-muted-foreground text-sm mt-2">{a.desc}</p>
+        <h1 className="text-4xl font-bold">{page?.title ?? "The CIO Times Awards"}</h1>
+        {page ? (
+          <div className="article-body mt-6" dangerouslySetInnerHTML={{ __html: page.content }} />
+        ) : (
+          <>
+            <p className="text-muted-foreground mt-2">Recognizing the leaders and teams defining enterprise technology.</p>
+            <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+              {AWARDS.map((a) => (
+                <div key={a.name} className="border border-border p-6">
+                  <div className="tag-chip">2026 Category</div>
+                  <h3 className="text-xl font-bold mt-1">{a.name}</h3>
+                  <p className="text-muted-foreground text-sm mt-2">{a.desc}</p>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </>
+        )}
       </div>
     </SiteLayout>
   );
