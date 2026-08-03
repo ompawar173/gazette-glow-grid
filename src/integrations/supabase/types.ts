@@ -101,7 +101,10 @@ export type Database = {
           created_at: string
           id: string
           label: string
+          last_clicked_at: string | null
           note: string | null
+          rel_nofollow: boolean
+          rel_sponsored: boolean
           target_id: string | null
           target_type: string
           updated_at: string
@@ -112,7 +115,10 @@ export type Database = {
           created_at?: string
           id?: string
           label: string
+          last_clicked_at?: string | null
           note?: string | null
+          rel_nofollow?: boolean
+          rel_sponsored?: boolean
           target_id?: string | null
           target_type?: string
           updated_at?: string
@@ -123,7 +129,10 @@ export type Database = {
           created_at?: string
           id?: string
           label?: string
+          last_clicked_at?: string | null
           note?: string | null
+          rel_nofollow?: boolean
+          rel_sponsored?: boolean
           target_id?: string | null
           target_type?: string
           updated_at?: string
@@ -272,6 +281,45 @@ export type Database = {
           referrer?: string | null
           region?: string | null
           session_id?: string | null
+        }
+        Relationships: []
+      }
+      pages: {
+        Row: {
+          content: string
+          created_at: string
+          hero_image_url: string | null
+          id: string
+          seo_description: string | null
+          seo_title: string | null
+          slug: string
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          content?: string
+          created_at?: string
+          hero_image_url?: string | null
+          id?: string
+          seo_description?: string | null
+          seo_title?: string | null
+          slug: string
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          hero_image_url?: string | null
+          id?: string
+          seo_description?: string | null
+          seo_title?: string | null
+          slug?: string
+          status?: string
+          title?: string
+          updated_at?: string
         }
         Relationships: []
       }
