@@ -113,27 +113,28 @@
   max-width: 100%;
   width: auto;
   height: auto;
-  max-height: 460px;
+  max-height: 340px;
   object-fit: contain;
   margin: 1.25em auto;
   display: block;
 }
 @media (max-width: 768px) {
-  .article-body img { max-height: 300px; }
+  .article-body img { max-height: 240px; }
 }
 .article-body a { color: var(--brand); text-decoration: underline; }
 
-/* Featured (lead) image on the article page — never dominate the fold */
+/* Featured (lead) image on the article page — modest, original size */
 .lead-image {
   width: 100%;
   aspect-ratio: 16 / 9;
-  max-height: 60vh;
+  max-height: 380px;
   object-fit: cover;
   object-position: center;
 }
 @media (max-width: 768px) {
-  .lead-image { max-height: 42vh; }
+  .lead-image { max-height: 220px; }
 }
+
 
 /* Admin shell — light, bright, low-chrome */
 .admin-shell { background: #f6f7f9; }
