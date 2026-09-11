@@ -64,6 +64,7 @@ export const Route = createFileRoute("/")({
 function Home() {
   const data = Route.useLoaderData();
   const articles = data.articles as unknown as (ArticleLite & { view_count?: number })[];
+  const latestArticles = data.latestArticles as unknown as ArticleLite[];
   const magazines = data.magazines as unknown as MagazineLite[];
   const categories = data.categories;
 
@@ -85,7 +86,7 @@ function Home() {
 
   return (
     <SiteLayout>
-      <Ticker items={articles.slice(0, 8).map((a) => ({ slug: a.slug, title: a.title, category: a.category, featured_image_url: a.featured_image_url }))} />
+      <Ticker items={latestArticles.map((a) => ({ slug: a.slug, title: a.title, category: a.category, featured_image_url: a.featured_image_url }))} />
 
       {/* Hero band */}
       <div className="bg-navy text-navy-foreground">
