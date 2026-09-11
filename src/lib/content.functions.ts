@@ -91,7 +91,7 @@ export const getHomePage = createServerFn({ method: "GET" }).handler(async () =>
   const [{ data: articles }, { data: magazines }, { data: cats }] = await Promise.all([
     db
       .from("articles")
-      .select(`${ARTICLE_LIST_COLS},view_count`)
+      .select(`${ARTICLE_LIST_COLS},view_count,is_latest`)
       .eq("status", "published")
       .order("published_at", { ascending: false })
       .limit(50),
@@ -102,7 +102,16 @@ export const getHomePage = createServerFn({ method: "GET" }).handler(async () =>
       .order("created_at", { ascending: false }),
     db.from("categories").select("name,slug,parent_category").order("name"),
   ]);
-  return { articles: articles ?? [], magazines: magazines ?? [], categories: cats ?? [] };
+  const publishedArticles = articles ?? [];
+  const selectedLatest = publishedArticles.filter((article) => article.is_latest);
+  const latestArticles = (selectedLatest.length > 0 ? selectedLatest : publishedArticles).slice(0, 8);
+
+  return {
+    articles: publishedArticles,
+    latestArticles,
+    magazines: magazines ?? [],
+    categories: cats ?? [],
+  };
 });
 
 export const getArticlesIndex = createServerFn({ method: "GET" }).handler(async () => {

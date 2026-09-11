@@ -22,7 +22,7 @@ export function Ticker({ items }: { items: Item[] }) {
           <div className="ticker-track">
             {loop.map((it, i) => (
               <Link
-                key={i}
+                key={`${it.slug}-${i >= items.length ? "repeat" : "original"}`}
                 to="/article/$slug"
                 params={{ slug: it.slug }}
                 className="flex items-center gap-2 group w-[320px] flex-shrink-0 pr-6"

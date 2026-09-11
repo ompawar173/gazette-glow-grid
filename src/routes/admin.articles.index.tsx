@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { AdminGate } from "@/components/admin/AdminGate";
 import { logActivity } from "@/lib/activity";
 import { toast } from "sonner";
-import { Plus, Pencil, Trash2 } from "lucide-react";
+import { Plus, Pencil, Trash2, Sparkles } from "lucide-react";
 
 export const Route = createFileRoute("/admin/articles/")({
   ssr: false,
@@ -40,6 +40,18 @@ function ArticlesAdmin() {
     if (error) return toast.error(error.message);
     await logActivity(newStatus === "published" ? "published" : "unpublished", "article", row.id);
     toast.success(newStatus === "published" ? "Published" : "Unpublished");
+    load();
+  };
+
+  const toggleLatest = async (row: any) => {
+    const next = !row.is_latest;
+    const { error } = await supabase
+      .from("articles")
+      .update({ is_latest: next })
+      .eq("id", row.id);
+    if (error) return toast.error(error.message);
+    await logActivity(next ? "added_to_latest" : "removed_from_latest", "article", row.id);
+    toast.success(next ? "Added to animated Latest" : "Removed from animated Latest");
     load();
   };
 
@@ -81,6 +93,7 @@ function ArticlesAdmin() {
               <th className="px-3 py-2">Category</th>
               <th className="px-3 py-2">Author</th>
               <th className="px-3 py-2">Status</th>
+              <th className="px-3 py-2">Animated Latest</th>
               <th className="px-3 py-2">Date</th>
               <th className="px-3 py-2 text-right">Actions</th>
             </tr>
@@ -96,6 +109,19 @@ function ArticlesAdmin() {
                     {r.status}
                   </button>
                 </td>
+                <td className="px-3 py-2">
+                  <button
+                    type="button"
+                    onClick={() => toggleLatest(r)}
+                    disabled={r.status !== "published"}
+                    aria-pressed={Boolean(r.is_latest)}
+                    title={r.status === "published" ? "Toggle this article in the animated Latest strip" : "Publish this article first"}
+                    className={`inline-flex items-center gap-1 px-2 py-1 text-[10px] font-bold uppercase disabled:cursor-not-allowed disabled:opacity-40 ${r.is_latest ? "bg-brand text-brand-foreground" : "border border-border text-muted-foreground"}`}
+                  >
+                    <Sparkles size={12} aria-hidden="true" />
+                    {r.is_latest ? "Showing" : "Hidden"}
+                  </button>
+                </td>
                 <td className="px-3 py-2 text-muted-foreground">{new Date(r.created_at).toLocaleDateString()}</td>
                 <td className="px-3 py-2 text-right">
                   <Link to="/admin/articles/$id" params={{ id: r.id }} className="inline-flex items-center gap-1 text-brand mr-3"><Pencil size={14} /> Edit</Link>
@@ -103,7 +129,7 @@ function ArticlesAdmin() {
                 </td>
               </tr>
             ))}
-            {filtered.length === 0 && <tr><td colSpan={6} className="px-4 py-8 text-center text-muted-foreground">No articles.</td></tr>}
+            {filtered.length === 0 && <tr><td colSpan={7} className="px-4 py-8 text-center text-muted-foreground">No articles.</td></tr>}
           </tbody>
         </table>
       </div>
