@@ -41,15 +41,19 @@ export function MagazineCarousel({ items }: { items: MagazineLite[] }) {
   const active = items[index];
 
   return (
-    <section className="bg-secondary/60 border-y border-border py-10 overflow-hidden">
+    <section className="bg-secondary border-y border-border py-10 md:py-14 overflow-hidden">
       <div className="max-w-[1200px] mx-auto px-4">
-        <div className="flex items-center justify-center gap-3 mb-8">
-          <span className="h-[2px] w-10 bg-brand" />
-          <h2 className="text-2xl font-bold uppercase tracking-wide text-navy text-center">Digital Magazine Issues</h2>
-          <span className="h-[2px] w-10 bg-brand" />
+        <div className="flex items-end justify-between gap-6 mb-8 border-b border-border pb-4">
+          <div>
+            <div className="tag-chip">Current edition</div>
+            <h2 className="text-2xl md:text-3xl font-black uppercase text-navy">Digital Magazine Issues</h2>
+          </div>
+          <Link to="/magazines" className="hidden sm:inline-flex border border-navy px-4 py-2 text-xs font-bold uppercase tracking-wider text-navy hover:bg-navy hover:text-navy-foreground transition-colors">
+            Read all magazines
+          </Link>
         </div>
 
-        <div className="relative h-[430px] md:h-[520px]">
+        <div className="relative h-[390px] md:h-[500px]">
           {items.map((m, i) => {
             const d = offsetOf(i);
             if (Math.abs(d) > 2) return null;
@@ -74,7 +78,7 @@ export function MagazineCarousel({ items }: { items: MagazineLite[] }) {
                     width={600}
                     height={800}
                     priority={isActive}
-                    className="w-[240px] md:w-[300px] aspect-[3/4] object-cover border border-border shadow-[0_18px_40px_-18px_rgba(10,42,102,0.6)] bg-card"
+                    className="w-[220px] md:w-[290px] aspect-[3/4] object-cover border border-border shadow-xl bg-card"
                   />
                   {isActive && (
                     <div className="mt-4 text-center max-w-[320px] mx-auto">
@@ -87,38 +91,27 @@ export function MagazineCarousel({ items }: { items: MagazineLite[] }) {
             );
           })}
 
-          <button
-            aria-label="Previous issue"
-            onClick={() => setIndex((i) => (i - 1 + n) % n)}
-            className="absolute left-2 md:left-1/2 md:-translate-x-[290px] top-[45%] z-20 border-2 border-brand bg-background/90 text-brand p-2 hover:bg-brand hover:text-brand-foreground transition-colors"
-          >
-            <ChevronLeft size={20} />
+        </div>
+
+        <div className="flex justify-center items-center gap-3 mt-5">
+          <button aria-label="Previous issue" onClick={() => setIndex((i) => (i - 1 + n) % n)} className="size-10 shrink-0 inline-flex items-center justify-center rounded-full border border-border bg-background text-navy hover:border-brand hover:text-brand transition-colors">
+            <ChevronLeft size={18} />
           </button>
-          <button
-            aria-label="Next issue"
-            onClick={() => setIndex((i) => (i + 1) % n)}
-            className="absolute right-2 md:left-1/2 md:translate-x-[250px] top-[45%] z-20 border-2 border-brand bg-background/90 text-brand p-2 hover:bg-brand hover:text-brand-foreground transition-colors"
-          >
-            <ChevronRight size={20} />
+          <div className="flex justify-center gap-2 px-2">
+            {items.map((m, i) => (
+              <button key={m.id} aria-label={`Show ${m.title}`} onClick={() => setIndex(i)} className={`size-2 rounded-full transition-colors ${i === index ? "bg-brand" : "bg-border"}`} />
+            ))}
+          </div>
+          <button aria-label="Next issue" onClick={() => setIndex((i) => (i + 1) % n)} className="size-10 shrink-0 inline-flex items-center justify-center rounded-full border border-navy bg-navy text-navy-foreground hover:bg-brand hover:border-brand transition-colors">
+            <ChevronRight size={18} />
           </button>
         </div>
 
-        <div className="flex justify-center gap-2 mt-6">
-          {items.map((m, i) => (
-            <button
-              key={m.id}
-              aria-label={`Show ${m.title}`}
-              onClick={() => setIndex(i)}
-              className={`h-1.5 transition-all ${i === index ? "w-8 bg-brand" : "w-3 bg-border"}`}
-            />
-          ))}
-        </div>
-
-        <div className="text-center mt-6">
+        <div className="text-center mt-5">
           <Link
             to="/magazines/$id"
             params={{ id: active.id }}
-            className="inline-block bg-navy text-navy-foreground px-6 py-3 text-xs font-bold uppercase tracking-[0.2em] hover:bg-brand"
+            className="inline-block bg-navy text-navy-foreground px-5 py-2.5 text-xs font-bold uppercase tracking-wider hover:bg-brand transition-colors"
           >
             Read this issue
           </Link>

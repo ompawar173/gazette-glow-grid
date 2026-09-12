@@ -94,7 +94,7 @@ function Home() {
           <div>
             <p className="text-brand text-[11px] font-bold uppercase tracking-[0.3em]">The Enterprise Edition</p>
             <h1 className="text-2xl md:text-4xl font-black mt-1" style={{ fontFamily: "Georgia, serif" }}>
-              CIO Times — stories of leaders shaping the digital economy
+              CIO Media World — global leaders shaping the digital economy
             </h1>
           </div>
           <Link to="/magazines" className="self-start bg-brand text-brand-foreground px-6 py-3 text-xs font-bold uppercase tracking-[0.2em]">
