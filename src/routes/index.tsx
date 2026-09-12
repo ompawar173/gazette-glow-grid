@@ -93,7 +93,7 @@ function Home() {
         <div className="max-w-[1200px] mx-auto px-4 py-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <p className="text-brand text-[11px] font-bold uppercase tracking-[0.3em]">The Enterprise Edition</p>
-            <h1 className="text-2xl md:text-4xl font-black mt-1" style={{ fontFamily: "Georgia, serif" }}>
+            <h1 className="text-2xl md:text-4xl font-black mt-1">
               CIO Media World — global leaders shaping the digital economy
             </h1>
           </div>
