@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Search, Menu, X, ChevronDown } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import logoAsset from "@/assets/cio-media-world-logo.png.asset.json";
 
 interface Category { name: string; slug: string; parent_category: string | null; }
 
@@ -24,7 +25,7 @@ export function SiteHeader() {
   const subsOf = (slug: string) => cats.filter((c) => c.parent_category === slug);
 
   return (
-    <header className="border-b-4 border-brand">
+    <header className="border-b-2 border-brand bg-background">
       {/* Top strip: date & time only */}
       <div className="bg-navy text-navy-foreground text-xs">
         <div className="max-w-[1200px] mx-auto px-4 py-1.5 flex justify-center sm:justify-between items-center">
@@ -38,18 +39,16 @@ export function SiteHeader() {
       </div>
 
       {/* Masthead */}
-      <div className="max-w-[1200px] mx-auto px-4 py-6 flex items-center justify-between gap-4">
-        <Link to="/" className="flex items-baseline gap-2">
-          <span className="text-3xl md:text-5xl font-black tracking-tight text-navy" style={{ fontFamily: "Georgia, serif" }}>
-            CIO<span className="text-brand">TIMES</span>
-          </span>
-          <span className="hidden md:inline text-[10px] uppercase tracking-[0.25em] text-muted-foreground border-l border-border pl-2">
-            Empowering Entrepreneurial Excellence
+      <div className="max-w-[1200px] mx-auto px-4 py-4 md:py-5 flex items-center justify-between gap-4">
+        <Link to="/" className="flex min-w-0 items-center gap-4" aria-label="CIO Media World home">
+          <img src={logoAsset.url} alt="CIO Media World" className="h-12 md:h-[72px] w-auto max-w-[250px] md:max-w-[390px] object-contain" />
+          <span className="hidden lg:inline text-[10px] uppercase tracking-[0.2em] text-muted-foreground border-l border-border pl-4">
+            The Voice of Enterprise Technology
           </span>
         </Link>
         <form
           onSubmit={(e) => { e.preventDefault(); if (q) window.location.href = `/articles?q=${encodeURIComponent(q)}`; }}
-          className="hidden md:flex items-center border-2 border-navy overflow-hidden"
+          className="hidden md:flex items-center border border-border overflow-hidden bg-card"
         >
           <input
             value={q}
@@ -57,7 +56,7 @@ export function SiteHeader() {
             placeholder="Search articles..."
             className="px-3 py-1.5 text-sm outline-none w-56 bg-transparent"
           />
-          <button type="submit" className="bg-brand text-brand-foreground px-3 py-2">
+          <button type="submit" aria-label="Search" className="bg-brand text-brand-foreground px-3 py-2 hover:bg-primary transition-colors">
             <Search size={16} />
           </button>
         </form>

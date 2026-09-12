@@ -1,7 +1,7 @@
 export const SITE_URL = "https://ciotime.lovable.app";
-export const SITE_NAME = "CIO Times";
-export const SITE_TAGLINE = "Business & Technology Journal for Enterprise Leaders";
-export const PUBLISHER_LOGO = `${SITE_URL}/favicon.ico`;
+export const SITE_NAME = "CIO Media World";
+export const SITE_TAGLINE = "The Voice of Enterprise Technology";
+export const PUBLISHER_LOGO = `${SITE_URL}/favicon.png`;
 
 const ALLOWED_BUCKETS = ["article-images", "magazine-covers", "magazine-pdfs"];
 

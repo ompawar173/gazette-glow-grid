@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { NewsletterSignup } from "./NewsletterSignup";
+import logoAsset from "@/assets/cio-media-world-logo.png.asset.json";
 
 export function SiteFooter() {
   const [industries, setIndustries] = useState<{ name: string; slug: string }[]>([]);
@@ -15,10 +16,10 @@ export function SiteFooter() {
       <div className="h-1 bg-brand" />
       <div className="bg-navy text-navy-foreground">
         <div className="max-w-[1200px] mx-auto px-4 pt-10">
-          <div className="border border-white/15 p-6 grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+          <div className="border border-brand/35 p-6 grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
             <div>
               <div className="text-brand text-[11px] font-bold uppercase tracking-[0.3em]">Newsletter</div>
-              <h3 className="text-2xl font-bold mt-1" style={{ fontFamily: "Georgia, serif" }}>The Executive Brief</h3>
+              <h3 className="text-2xl font-bold mt-1">The Executive Brief</h3>
               <p className="opacity-80 text-sm mt-2">
                 Weekly intelligence for CIOs and technology leaders. Delivered every Tuesday.
               </p>
@@ -29,8 +30,8 @@ export function SiteFooter() {
         <div className="max-w-[1200px] mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-4 gap-10 text-sm">
 
           <div>
-            <div className="text-3xl font-black" style={{ fontFamily: "Georgia, serif" }}>
-              CIO<span className="text-brand">TIMES</span>
+            <div className="bg-background p-3 inline-block">
+              <img src={logoAsset.url} alt="CIO Media World" className="h-14 w-auto object-contain" />
             </div>
             <p className="mt-3 opacity-75 leading-relaxed">
               Empowering entrepreneurial excellence. Business and technology journalism for the leaders
@@ -69,7 +70,7 @@ export function SiteFooter() {
         </div>
         <div className="border-t border-white/10">
           <div className="max-w-[1200px] mx-auto px-4 py-4 text-xs opacity-70 flex flex-col sm:flex-row justify-between gap-2">
-            <span>© {new Date().getFullYear()} CIO Times. All rights reserved.</span>
+            <span>© {new Date().getFullYear()} CIO Media World. All rights reserved.</span>
             <span>Business &amp; Technology Journal</span>
           </div>
         </div>
