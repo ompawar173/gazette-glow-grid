@@ -35,8 +35,7 @@ export function ArticleForm({ id }: Props) {
   const handleImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const f = e.target.files?.[0]; if (!f) return;
     try {
-      const url = await uploadFile("CEO MEDIA MAGZINE PUNE
-", f);
+      const url = await uploadFile("CEO MEDIA MAGZINE PUNE");
       set("featured_image_url", url);
       toast.success("Image uploaded");
     } catch (err: any) { toast.error(err.message); }
