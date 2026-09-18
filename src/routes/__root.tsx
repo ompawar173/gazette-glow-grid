@@ -15,7 +15,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { PageViewTracker } from "@/components/site/PageViewTracker";
 import { SITE_NAME, graph, organizationSchema, websiteSchema } from "@/lib/seo";
 
-const SUPABASE_ORIGIN = import.meta.env["VITE_SUPABASE_URL"] ?? "https://rjljiqyyntqowstfmoxh.supabase.co";
+const SUPABASE_ORIGIN = import.meta.env["VITE_SUPABASE_URL"] ?? "https://zffpikiuavrwaszpxufl.supabase.co";
 
 function NotFoundComponent() {
   return (
