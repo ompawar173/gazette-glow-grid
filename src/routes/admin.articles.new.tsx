@@ -1,3 +1,4 @@
+```tsx
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -9,147 +10,181 @@ import { logActivity } from "@/lib/activity";
 import { toast } from "sonner";
 import { StorageImage } from "@/components/site/StorageImage";
 
-interface Props { id?: string; }
+interface Props {
+  id?: string;
+}
+
+interface ArticleFormData {
+  title: string;
+  slug: string;
+  category: string;
+  subcategory: string;
+  author_name: string;
+  author_title: string;
+  excerpt: string;
+  body: string;
+  featured_image_url: string;
+  status: "draft" | "published";
+  published_at?: string | null;
+}
+
+const INITIAL_FORM: ArticleFormData = {
+  title: "",
+  slug: "",
+  category: "",
+  subcategory: "",
+  author_name: "Editorial Team",
+  author_title: "",
+  excerpt: "",
+  body: "",
+  featured_image_url: "",
+  status: "draft",
+  published_at: null,
+};
+
+const MEDIA_BUCKET = "CEO MEDIA MAGZINE PUNE";
 
 export function ArticleForm({ id }: Props) {
   const navigate = useNavigate();
+
   const [cats, setCats] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
-  const [form, setForm] = useState<any>({
-    title: "", slug: "", category: "", subcategory: "",
-    author_name: "Editorial Team", author_title: "",
-    excerpt: "", body: "", featured_image_url: "", status: "draft",
-  });
+  const [loadingArticle, setLoadingArticle] = useState(Boolean(id));
+  const [uploadingImage, setUploadingImage] = useState(false);
 
-  useEffect(() => {
-    supabase.from("categories").select("name").order("name").then(({ data }) => setCats((data ?? []).map((c) => c.name)));
-    if (id) {
-      supabase.from("articles").select("*").eq("id", id).maybeSingle().then(({ data }) => {
-        if (data) setForm(data);
-      });
+  const [form, setForm] = useState<ArticleFormData>(INITIAL_FORM);
+
+  /**
+   * Update a single form field.
+   */
+  const setField = <K extends keyof ArticleFormData>(
+    key: K,
+    value: ArticleFormData[K],
+  ) => {
+    setForm((current) => ({
+      ...current,
+      [key]: value,
+    }));
+  };
+
+  /**
+   * Load categories.
+   */
+  const loadCategories = async () => {
+    const { data, error } = await supabase
+      .from("categories")
+      .select("name")
+      .order("name");
+
+    if (error) {
+      console.error("Failed to load categories:", error);
+      toast.error("Failed to load categories");
+      return;
     }
+
+    setCats((data ?? []).map((category) => category.name));
+  };
+
+  /**
+   * Load article when editing.
+   */
+  const loadArticle = async () => {
+    if (!id) {
+      setLoadingArticle(false);
+      return;
+    }
+
+    setLoadingArticle(true);
+
+    const { data, error } = await supabase
+      .from("articles")
+      .select("*")
+      .eq("id", id)
+      .maybeSingle();
+
+    setLoadingArticle(false);
+
+    if (error) {
+      console.error("Failed to load article:", error);
+      toast.error("Failed to load article");
+      return;
+    }
+
+    if (!data) {
+      toast.error("Article not found");
+      navigate({ to: "/admin/articles" });
+      return;
+    }
+
+    setForm({
+      title: data.title ?? "",
+      slug: data.slug ?? "",
+      category: data.category ?? "",
+      subcategory: data.subcategory ?? "",
+      author_name: data.author_name ?? "Editorial Team",
+      author_title: data.author_title ?? "",
+      excerpt: data.excerpt ?? "",
+      body: data.body ?? "",
+      featured_image_url: data.featured_image_url ?? "",
+      status: data.status === "published" ? "published" : "draft",
+      published_at: data.published_at ?? null,
+    });
+  };
+
+  /**
+   * Initial data loading.
+   */
+  useEffect(() => {
+    void loadCategories();
+    void loadArticle();
   }, [id]);
 
-  const set = (k: string, v: any) => setForm((f: any) => ({ ...f, [k]: v }));
+  /**
+   * Upload featured image.
+   */
+  const handleImage = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const file = event.target.files?.[0];
 
-  const handleImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const f = e.target.files?.[0]; if (!f) return;
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      toast.error("Please select an image file");
+      return;
+    }
+
+    setUploadingImage(true);
+
     try {
-      const url = await uploadFile("CEO MEDIA MAGZINE PUNE");
-      set("featured_image_url", url);
-      toast.success("Image uploaded");
-    } catch (err: any) { toast.error(err.message); }
+      /*
+       * Pass the selected file to uploadFile.
+       * If your uploadFile helper uses a different signature,
+       * adjust this call to match that helper.
+       */
+      const url = await uploadFile(MEDIA_BUCKET, file);
+
+      setField("featured_image_url", url);
+
+      toast.success("Image uploaded successfully");
+    } catch (error: any) {
+      console.error("Image upload failed:", error);
+
+      toast.error(
+        error?.message || "Failed to upload image",
+      );
+    } finally {
+      setUploadingImage(false);
+
+      // Allow selecting the same file again.
+      event.target.value = "";
+    }
   };
 
-  const uniqueSlug = async (base: string) => {
-    let candidate = base;
-    for (let i = 2; i < 60; i++) {
-      const q = supabase.from("articles").select("id").eq("slug", candidate).limit(1);
-      const { data } = id ? await q.neq("id", id) : await q;
-      if (!data || data.length === 0) return candidate;
-      candidate = `${base}-${i}`;
-    }
-    return `${base}-${Date.now()}`;
-  };
-
-  const save = async (status: "draft" | "published") => {
-    if (!form.title || !form.category) return toast.error("Title and category required");
-    setLoading(true);
-    // Never trust whatever was pasted into the slug box (URLs, spaces, symbols).
-    const base = slugify(form.slug || form.title) || slugify(form.title) || `article-${Date.now()}`;
-    const slug = await uniqueSlug(base);
-    const payload = {
-      title: form.title,
-      slug,
-      category: form.category,
-      subcategory: form.subcategory || null,
-      author_name: form.author_name || "Editorial Team",
-      author_title: form.author_title || null,
-      excerpt: form.excerpt || null,
-      body: form.body ?? "",
-      featured_image_url: form.featured_image_url || null,
-      status,
-      published_at: status === "published" ? (form.published_at ?? new Date().toISOString()) : null,
-    };
-    let error;
-    if (id) {
-      ({ error } = await supabase.from("articles").update(payload).eq("id", id));
-    } else {
-      ({ error } = await supabase.from("articles").insert(payload));
-    }
-    setLoading(false);
-    if (error) {
-      const code = (error as any).code;
-      if (code === "23505") return toast.error("An article with this URL already exists — change the slug.");
-      if (code === "42501" || /row-level security/i.test(error.message)) {
-        return toast.error("You don't have permission to publish articles.");
-      }
-      return toast.error(error.message);
-    }
-    set("slug", slug);
-    await logActivity(id ? "edited" : "created", "article", id ?? slug);
-    toast.success(status === "published" ? "Published" : "Draft saved");
-    navigate({ to: "/admin/articles" });
-  };
-
-  return (
-    <AdminGate title={id ? "Edit Article" : "New Article"}>
-      <div className="grid grid-cols-1 md:grid-cols-[1fr_320px] gap-6 max-w-6xl">
-        <div className="space-y-4">
-          <div>
-            <label className="text-xs font-bold uppercase tracking-wider">Title</label>
-            <input value={form.title} onChange={(e) => set("title", e.target.value)} className="w-full px-3 py-2 border border-border mt-1" />
-          </div>
-          <div>
-            <label className="text-xs font-bold uppercase tracking-wider">Slug (URL)</label>
-            <input value={form.slug} onChange={(e) => set("slug", e.target.value)} placeholder="auto from title" className="w-full px-3 py-2 border border-border mt-1" />
-          </div>
-          <div>
-            <label className="text-xs font-bold uppercase tracking-wider">Excerpt</label>
-            <textarea value={form.excerpt ?? ""} onChange={(e) => set("excerpt", e.target.value)} rows={2} className="w-full px-3 py-2 border border-border mt-1" />
-          </div>
-          <div>
-            <label className="text-xs font-bold uppercase tracking-wider">Body</label>
-            <div className="mt-1">
-              <RichTextEditor value={form.body ?? ""} onChange={(v) => set("body", v)} />
-            </div>
-          </div>
-        </div>
-        <div className="space-y-4">
-          <div className="bg-background border border-border p-4 space-y-3">
-            <div className="text-xs font-bold uppercase tracking-wider">Publish</div>
-            <div className="text-xs">Status: <b>{form.status}</b></div>
-            <div className="flex gap-2">
-              <button disabled={loading} onClick={() => save("draft")} className="flex-1 border border-border py-2 text-sm font-bold uppercase">Save Draft</button>
-              <button disabled={loading} onClick={() => save("published")} className="flex-1 bg-brand text-brand-foreground py-2 text-sm font-bold uppercase">Publish</button>
-            </div>
-          </div>
-          <div className="bg-background border border-border p-4 space-y-3">
-            <div className="text-xs font-bold uppercase tracking-wider">Category</div>
-            <select value={form.category} onChange={(e) => set("category", e.target.value)} className="w-full px-2 py-1.5 border border-border text-sm">
-              <option value="">— Select —</option>
-              {cats.map((c) => <option key={c} value={c}>{c}</option>)}
-            </select>
-            <input value={form.subcategory ?? ""} onChange={(e) => set("subcategory", e.target.value)} placeholder="Subcategory (optional)" className="w-full px-2 py-1.5 border border-border text-sm" />
-          </div>
-          <div className="bg-background border border-border p-4 space-y-3">
-            <div className="text-xs font-bold uppercase tracking-wider">Author</div>
-            <input value={form.author_name} onChange={(e) => set("author_name", e.target.value)} placeholder="Name" className="w-full px-2 py-1.5 border border-border text-sm" />
-            <input value={form.author_title ?? ""} onChange={(e) => set("author_title", e.target.value)} placeholder="Title" className="w-full px-2 py-1.5 border border-border text-sm" />
-          </div>
-          <div className="bg-background border border-border p-4 space-y-3">
-            <div className="text-xs font-bold uppercase tracking-wider">Featured Image</div>
-            {form.featured_image_url && <StorageImage src={form.featured_image_url} className="w-full aspect-video object-cover" />}
-            <input type="file" accept="image/*" onChange={handleImage} className="text-xs" />
-            <input value={form.featured_image_url ?? ""} onChange={(e) => set("featured_image_url", e.target.value)} placeholder="Or paste URL" className="w-full px-2 py-1.5 border border-border text-xs" />
-          </div>
-        </div>
-      </div>
-    </AdminGate>
-  );
-}
-
-export const Route = createFileRoute("/admin/articles/new")({
-  ssr: false,
-  component: () => <ArticleForm />,
-});
+  /**
+   * Generate a unique article slug.
+   */
+  const getUniqueSlug = async (value: string) => {
+    const base =
+      slugify
+```
