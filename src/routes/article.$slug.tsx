@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
+
 import { supabase } from "@/integrations/supabase/client";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { StorageImage } from "@/components/site/StorageImage";
@@ -101,16 +102,105 @@ export const Route = createFileRoute("/article/$slug")({
 
 function ArticlePage() {
   const { slug } = Route.useParams();
-  const { article, related, categorySlug, subSlug } = Route.useLoaderData();
+  const loaderData = Route.useLoaderData();
+  const [article, setArticle] = useState<any>(loaderData?.article ?? null);
+  const [related, setRelated] = useState<any[]>(loaderData?.related ?? []);
+  const [categorySlug, setCategorySlug] = useState<string | null>(loaderData?.categorySlug ?? null);
+  const [subSlug, setSubSlug] = useState<string | null>(loaderData?.subSlug ?? null);
+  const [loading, setLoading] = useState(!loaderData?.article);
+
 
   useEffect(() => {
-    if (article) supabase.rpc("increment_article_views", { _slug: slug });
-  }, [slug, article]);
+    let isMounted = true;
+    const cleanSlug = decodeURIComponent(slug).trim();
+
+    if (loaderData?.article) {
+      setArticle(loaderData.article);
+      setRelated(loaderData.related ?? []);
+      setCategorySlug(loaderData.categorySlug ?? null);
+      setSubSlug(loaderData.subSlug ?? null);
+      setLoading(false);
+      supabase.rpc("increment_article_views", { _slug: cleanSlug });
+      return;
+    }
+
+    setLoading(true);
+    supabase
+      .from("articles")
+      .select("*")
+      .eq("slug", cleanSlug)
+      .eq("status", "published")
+      .maybeSingle()
+      .then(async ({ data: fetchedArt }) => {
+        if (!isMounted) return;
+        let finalArt = fetchedArt;
+
+        if (!finalArt) {
+          const { data: fb } = await supabase
+            .from("articles")
+            .select("*")
+            .ilike("slug", cleanSlug)
+            .eq("status", "published")
+            .maybeSingle();
+          finalArt = fb;
+        }
+
+        if (finalArt) {
+          setArticle(finalArt);
+          supabase.rpc("increment_article_views", { _slug: cleanSlug });
+
+          const [{ data: rel }, { data: cats }] = await Promise.all([
+            supabase
+              .from("articles")
+              .select("id,slug,title,category,subcategory,excerpt,featured_image_url,author_name,published_at")
+              .eq("status", "published")
+              .eq("category", finalArt.category)
+              .neq("id", finalArt.id)
+              .order("published_at", { ascending: false })
+              .limit(4),
+            supabase.from("categories").select("name,slug,parent_category"),
+          ]);
+
+          if (isMounted) {
+            setRelated(rel ?? []);
+            const catRow = (cats ?? []).find((c) => c.name === finalArt.category && !c.parent_category)
+              ?? (cats ?? []).find((c) => c.name === finalArt.category);
+            const subRow = finalArt.subcategory
+              ? (cats ?? []).find((c) => c.name === finalArt.subcategory)
+              : undefined;
+
+            setCategorySlug(catRow?.slug ?? null);
+            setSubSlug(subRow?.slug ?? null);
+          }
+        } else {
+          setArticle(null);
+        }
+        setLoading(false);
+      })
+      .catch(() => {
+        if (isMounted) setLoading(false);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [slug, loaderData?.article]);
 
   const body = useMemo(
     () => (article?.body ?? "").replace(/<(\/?)h1(\s|>)/gi, "<$1h2$2"),
     [article?.body],
   );
+
+  if (loading) {
+    return (
+      <SiteLayout>
+        <div className="max-w-[900px] mx-auto px-4 py-24 text-center">
+          <div className="animate-spin inline-block w-8 h-8 border-4 border-brand border-t-transparent rounded-full mb-4" />
+          <p className="text-muted-foreground text-sm">Loading article...</p>
+        </div>
+      </SiteLayout>
+    );
+  }
 
   if (!article) {
     return (
@@ -122,6 +212,7 @@ function ArticlePage() {
       </SiteLayout>
     );
   }
+
 
   const minutes = readingTimeMinutes(article.body);
   const published = article.published_at ? new Date(article.published_at) : null;
