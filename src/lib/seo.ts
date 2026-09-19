@@ -3,7 +3,7 @@ export const SITE_NAME = "CIO Media World";
 export const SITE_TAGLINE = "The Voice of Enterprise Technology";
 export const PUBLISHER_LOGO = `${SITE_URL}/favicon.png`;
 
-const ALLOWED_BUCKETS = ["article-images", "magazine-covers", "magazine-pdfs"];
+const ALLOWED_BUCKETS = ["article-images", "magazine-covers", "magazine-pdfs", "ceo media magzine pune", "ceo media magazine pune"];
 
 /** Parse a `storage://bucket/path` reference or a legacy Supabase storage URL. */
 export function parseStorageRef(value: string | null | undefined): { bucket: string; path: string } | null {
@@ -12,15 +12,20 @@ export function parseStorageRef(value: string | null | undefined): { bucket: str
     const rest = value.slice("storage://".length);
     const i = rest.indexOf("/");
     if (i < 1) return null;
-    return { bucket: rest.slice(0, i), path: rest.slice(i + 1) };
+    return { bucket: decodeURIComponent(rest.slice(0, i)), path: rest.slice(i + 1) };
   }
   const m = value.match(/\/storage\/v1\/object\/(?:public|sign|authenticated)\/([^/]+)\/(.+?)(?:\?|$)/);
-  if (m && m[1] && m[2]) return { bucket: m[1], path: decodeURIComponent(m[2]) };
+  if (m && m[1] && m[2]) return { bucket: decodeURIComponent(m[1]), path: decodeURIComponent(m[2]) };
   return null;
 }
 
 export function isAllowedBucket(bucket: string) {
-  return ALLOWED_BUCKETS.includes(bucket);
+  if (!bucket) return false;
+  const decoded = decodeURIComponent(bucket).trim();
+  if (!decoded || decoded.includes("..") || decoded.includes("/") || decoded.includes("\\")) return false;
+  const lower = decoded.toLowerCase();
+  if (ALLOWED_BUCKETS.includes(lower)) return true;
+  return /^[a-z0-9_ %-]+$/i.test(decoded);
 }
 
 /**
@@ -31,7 +36,7 @@ export function imageUrl(value: string | null | undefined): string {
   if (!value) return "";
   const ref = parseStorageRef(value);
   if (!ref) return value; // already an external URL
-  return `/api/public/img/${ref.bucket}/${ref.path.split("/").map(encodeURIComponent).join("/")}`;
+  return `/api/public/img/${encodeURIComponent(ref.bucket)}/${ref.path.split("/").map(encodeURIComponent).join("/")}`;
 }
 
 export function absoluteUrl(path: string): string {

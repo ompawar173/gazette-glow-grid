@@ -9,73 +9,43 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as RssDotxmlRouteImport } from './routes/rss[.]xml'
-import { Route as NewsletterRouteImport } from './routes/newsletter'
-import { Route as NewsSitemapDotxmlRouteImport } from './routes/news-sitemap[.]xml'
-import { Route as ContactRouteImport } from './routes/contact'
-import { Route as AwardsRouteImport } from './routes/awards'
-import { Route as ArticlesRouteImport } from './routes/articles'
-import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as MagazinesIndexRouteImport } from './routes/magazines.index'
-import { Route as IndustryIndexRouteImport } from './routes/industry.index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as ArticlesRouteImport } from './routes/articles'
+import { Route as AwardsRouteImport } from './routes/awards'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as NewsSitemapDotxmlRouteImport } from './routes/news-sitemap[.]xml'
+import { Route as NewsletterRouteImport } from './routes/newsletter'
+import { Route as RssDotxmlRouteImport } from './routes/rss[.]xml'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
-import { Route as MagazinesIdRouteImport } from './routes/magazines.$id'
-import { Route as CategorySlugRouteImport } from './routes/category.$slug'
-import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
-import { Route as AdminUsersRouteImport } from './routes/admin.users'
-import { Route as AdminSubscribersRouteImport } from './routes/admin.subscribers'
-import { Route as AdminLoginRouteImport } from './routes/admin.login'
-import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
-import { Route as AdminCategoriesRouteImport } from './routes/admin.categories'
-import { Route as AdminBacklinksRouteImport } from './routes/admin.backlinks'
 import { Route as AdminActivityRouteImport } from './routes/admin.activity'
-import { Route as IndustrySlugIndexRouteImport } from './routes/industry.$slug.index'
-import { Route as AdminPagesIndexRouteImport } from './routes/admin.pages.index'
-import { Route as AdminMagazinesIndexRouteImport } from './routes/admin.magazines.index'
+import { Route as AdminBacklinksRouteImport } from './routes/admin.backlinks'
+import { Route as AdminCategoriesRouteImport } from './routes/admin.categories'
+import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
+import { Route as AdminLoginRouteImport } from './routes/admin.login'
+import { Route as AdminSubscribersRouteImport } from './routes/admin.subscribers'
+import { Route as AdminUsersRouteImport } from './routes/admin.users'
+import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
+import { Route as CategorySlugRouteImport } from './routes/category.$slug'
+import { Route as IndustryIndexRouteImport } from './routes/industry.index'
+import { Route as MagazinesIndexRouteImport } from './routes/magazines.index'
+import { Route as MagazinesIdRouteImport } from './routes/magazines.$id'
 import { Route as AdminArticlesIndexRouteImport } from './routes/admin.articles.index'
-import { Route as IndustrySlugSubRouteImport } from './routes/industry.$slug.$sub'
-import { Route as AdminPagesIdRouteImport } from './routes/admin.pages.$id'
-import { Route as AdminMagazinesNewRouteImport } from './routes/admin.magazines.new'
-import { Route as AdminMagazinesIdRouteImport } from './routes/admin.magazines.$id'
-import { Route as AdminArticlesNewRouteImport } from './routes/admin.articles.new'
 import { Route as AdminArticlesIdRouteImport } from './routes/admin.articles.$id'
+import { Route as AdminArticlesNewRouteImport } from './routes/admin.articles.new'
+import { Route as AdminMagazinesIndexRouteImport } from './routes/admin.magazines.index'
+import { Route as AdminMagazinesIdRouteImport } from './routes/admin.magazines.$id'
+import { Route as AdminMagazinesNewRouteImport } from './routes/admin.magazines.new'
+import { Route as AdminPagesIndexRouteImport } from './routes/admin.pages.index'
+import { Route as AdminPagesIdRouteImport } from './routes/admin.pages.$id'
+import { Route as IndustrySlugIndexRouteImport } from './routes/industry.$slug.index'
+import { Route as IndustrySlugSubRouteImport } from './routes/industry.$slug.$sub'
 import { Route as ApiPublicImgSplatRouteImport } from './routes/api/public/img.$'
 
-const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
-  id: '/sitemap.xml',
-  path: '/sitemap.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RssDotxmlRoute = RssDotxmlRouteImport.update({
-  id: '/rss.xml',
-  path: '/rss.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const NewsletterRoute = NewsletterRouteImport.update({
-  id: '/newsletter',
-  path: '/newsletter',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const NewsSitemapDotxmlRoute = NewsSitemapDotxmlRouteImport.update({
-  id: '/news-sitemap.xml',
-  path: '/news-sitemap.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ContactRoute = ContactRouteImport.update({
-  id: '/contact',
-  path: '/contact',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AwardsRoute = AwardsRouteImport.update({
-  id: '/awards',
-  path: '/awards',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ArticlesRoute = ArticlesRouteImport.update({
-  id: '/articles',
-  path: '/articles',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -83,19 +53,39 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const ArticlesRoute = ArticlesRouteImport.update({
+  id: '/articles',
+  path: '/articles',
   getParentRoute: () => rootRouteImport,
 } as any)
-const MagazinesIndexRoute = MagazinesIndexRouteImport.update({
-  id: '/magazines/',
-  path: '/magazines/',
+const AwardsRoute = AwardsRouteImport.update({
+  id: '/awards',
+  path: '/awards',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndustryIndexRoute = IndustryIndexRouteImport.update({
-  id: '/industry/',
-  path: '/industry/',
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewsSitemapDotxmlRoute = NewsSitemapDotxmlRouteImport.update({
+  id: '/news-sitemap.xml',
+  path: '/news-sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewsletterRoute = NewsletterRouteImport.update({
+  id: '/newsletter',
+  path: '/newsletter',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RssDotxmlRoute = RssDotxmlRouteImport.update({
+  id: '/rss.xml',
+  path: '/rss.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
@@ -103,44 +93,9 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/admin/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const MagazinesIdRoute = MagazinesIdRouteImport.update({
-  id: '/magazines/$id',
-  path: '/magazines/$id',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CategorySlugRoute = CategorySlugRouteImport.update({
-  id: '/category/$slug',
-  path: '/category/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ArticleSlugRoute = ArticleSlugRouteImport.update({
-  id: '/article/$slug',
-  path: '/article/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminUsersRoute = AdminUsersRouteImport.update({
-  id: '/admin/users',
-  path: '/admin/users',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminSubscribersRoute = AdminSubscribersRouteImport.update({
-  id: '/admin/subscribers',
-  path: '/admin/subscribers',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminLoginRoute = AdminLoginRouteImport.update({
-  id: '/admin/login',
-  path: '/admin/login',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminDashboardRoute = AdminDashboardRouteImport.update({
-  id: '/admin/dashboard',
-  path: '/admin/dashboard',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminCategoriesRoute = AdminCategoriesRouteImport.update({
-  id: '/admin/categories',
-  path: '/admin/categories',
+const AdminActivityRoute = AdminActivityRouteImport.update({
+  id: '/admin/activity',
+  path: '/admin/activity',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminBacklinksRoute = AdminBacklinksRouteImport.update({
@@ -148,24 +103,54 @@ const AdminBacklinksRoute = AdminBacklinksRouteImport.update({
   path: '/admin/backlinks',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminActivityRoute = AdminActivityRouteImport.update({
-  id: '/admin/activity',
-  path: '/admin/activity',
+const AdminCategoriesRoute = AdminCategoriesRouteImport.update({
+  id: '/admin/categories',
+  path: '/admin/categories',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndustrySlugIndexRoute = IndustrySlugIndexRouteImport.update({
-  id: '/industry/$slug/',
-  path: '/industry/$slug/',
+const AdminDashboardRoute = AdminDashboardRouteImport.update({
+  id: '/admin/dashboard',
+  path: '/admin/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminPagesIndexRoute = AdminPagesIndexRouteImport.update({
-  id: '/admin/pages/',
-  path: '/admin/pages/',
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/admin/login',
+  path: '/admin/login',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminMagazinesIndexRoute = AdminMagazinesIndexRouteImport.update({
-  id: '/admin/magazines/',
-  path: '/admin/magazines/',
+const AdminSubscribersRoute = AdminSubscribersRouteImport.update({
+  id: '/admin/subscribers',
+  path: '/admin/subscribers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminUsersRoute = AdminUsersRouteImport.update({
+  id: '/admin/users',
+  path: '/admin/users',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArticleSlugRoute = ArticleSlugRouteImport.update({
+  id: '/article/$slug',
+  path: '/article/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CategorySlugRoute = CategorySlugRouteImport.update({
+  id: '/category/$slug',
+  path: '/category/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndustryIndexRoute = IndustryIndexRouteImport.update({
+  id: '/industry/',
+  path: '/industry/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MagazinesIndexRoute = MagazinesIndexRouteImport.update({
+  id: '/magazines/',
+  path: '/magazines/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MagazinesIdRoute = MagazinesIdRouteImport.update({
+  id: '/magazines/$id',
+  path: '/magazines/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminArticlesIndexRoute = AdminArticlesIndexRouteImport.update({
@@ -173,24 +158,9 @@ const AdminArticlesIndexRoute = AdminArticlesIndexRouteImport.update({
   path: '/admin/articles/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndustrySlugSubRoute = IndustrySlugSubRouteImport.update({
-  id: '/industry/$slug/$sub',
-  path: '/industry/$slug/$sub',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminPagesIdRoute = AdminPagesIdRouteImport.update({
-  id: '/admin/pages/$id',
-  path: '/admin/pages/$id',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminMagazinesNewRoute = AdminMagazinesNewRouteImport.update({
-  id: '/admin/magazines/new',
-  path: '/admin/magazines/new',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminMagazinesIdRoute = AdminMagazinesIdRouteImport.update({
-  id: '/admin/magazines/$id',
-  path: '/admin/magazines/$id',
+const AdminArticlesIdRoute = AdminArticlesIdRouteImport.update({
+  id: '/admin/articles/$id',
+  path: '/admin/articles/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminArticlesNewRoute = AdminArticlesNewRouteImport.update({
@@ -198,9 +168,39 @@ const AdminArticlesNewRoute = AdminArticlesNewRouteImport.update({
   path: '/admin/articles/new',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminArticlesIdRoute = AdminArticlesIdRouteImport.update({
-  id: '/admin/articles/$id',
-  path: '/admin/articles/$id',
+const AdminMagazinesIndexRoute = AdminMagazinesIndexRouteImport.update({
+  id: '/admin/magazines/',
+  path: '/admin/magazines/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminMagazinesIdRoute = AdminMagazinesIdRouteImport.update({
+  id: '/admin/magazines/$id',
+  path: '/admin/magazines/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminMagazinesNewRoute = AdminMagazinesNewRouteImport.update({
+  id: '/admin/magazines/new',
+  path: '/admin/magazines/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminPagesIndexRoute = AdminPagesIndexRouteImport.update({
+  id: '/admin/pages/',
+  path: '/admin/pages/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminPagesIdRoute = AdminPagesIdRouteImport.update({
+  id: '/admin/pages/$id',
+  path: '/admin/pages/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndustrySlugIndexRoute = IndustrySlugIndexRouteImport.update({
+  id: '/industry/$slug/',
+  path: '/industry/$slug/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndustrySlugSubRoute = IndustrySlugSubRouteImport.update({
+  id: '/industry/$slug/$sub',
+  path: '/industry/$slug/$sub',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicImgSplatRoute = ApiPublicImgSplatRouteImport.update({
@@ -461,53 +461,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/sitemap.xml': {
-      id: '/sitemap.xml'
-      path: '/sitemap.xml'
-      fullPath: '/sitemap.xml'
-      preLoaderRoute: typeof SitemapDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/rss.xml': {
-      id: '/rss.xml'
-      path: '/rss.xml'
-      fullPath: '/rss.xml'
-      preLoaderRoute: typeof RssDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/newsletter': {
-      id: '/newsletter'
-      path: '/newsletter'
-      fullPath: '/newsletter'
-      preLoaderRoute: typeof NewsletterRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/news-sitemap.xml': {
-      id: '/news-sitemap.xml'
-      path: '/news-sitemap.xml'
-      fullPath: '/news-sitemap.xml'
-      preLoaderRoute: typeof NewsSitemapDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/contact': {
-      id: '/contact'
-      path: '/contact'
-      fullPath: '/contact'
-      preLoaderRoute: typeof ContactRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/awards': {
-      id: '/awards'
-      path: '/awards'
-      fullPath: '/awards'
-      preLoaderRoute: typeof AwardsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/articles': {
-      id: '/articles'
-      path: '/articles'
-      fullPath: '/articles'
-      preLoaderRoute: typeof ArticlesRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -517,25 +475,53 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/articles': {
+      id: '/articles'
+      path: '/articles'
+      fullPath: '/articles'
+      preLoaderRoute: typeof ArticlesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/magazines/': {
-      id: '/magazines/'
-      path: '/magazines'
-      fullPath: '/magazines/'
-      preLoaderRoute: typeof MagazinesIndexRouteImport
+    '/awards': {
+      id: '/awards'
+      path: '/awards'
+      fullPath: '/awards'
+      preLoaderRoute: typeof AwardsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/industry/': {
-      id: '/industry/'
-      path: '/industry'
-      fullPath: '/industry/'
-      preLoaderRoute: typeof IndustryIndexRouteImport
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/news-sitemap.xml': {
+      id: '/news-sitemap.xml'
+      path: '/news-sitemap.xml'
+      fullPath: '/news-sitemap.xml'
+      preLoaderRoute: typeof NewsSitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/newsletter': {
+      id: '/newsletter'
+      path: '/newsletter'
+      fullPath: '/newsletter'
+      preLoaderRoute: typeof NewsletterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rss.xml': {
+      id: '/rss.xml'
+      path: '/rss.xml'
+      fullPath: '/rss.xml'
+      preLoaderRoute: typeof RssDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/': {
@@ -545,60 +531,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/magazines/$id': {
-      id: '/magazines/$id'
-      path: '/magazines/$id'
-      fullPath: '/magazines/$id'
-      preLoaderRoute: typeof MagazinesIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/category/$slug': {
-      id: '/category/$slug'
-      path: '/category/$slug'
-      fullPath: '/category/$slug'
-      preLoaderRoute: typeof CategorySlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/article/$slug': {
-      id: '/article/$slug'
-      path: '/article/$slug'
-      fullPath: '/article/$slug'
-      preLoaderRoute: typeof ArticleSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin/users': {
-      id: '/admin/users'
-      path: '/admin/users'
-      fullPath: '/admin/users'
-      preLoaderRoute: typeof AdminUsersRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin/subscribers': {
-      id: '/admin/subscribers'
-      path: '/admin/subscribers'
-      fullPath: '/admin/subscribers'
-      preLoaderRoute: typeof AdminSubscribersRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin/login': {
-      id: '/admin/login'
-      path: '/admin/login'
-      fullPath: '/admin/login'
-      preLoaderRoute: typeof AdminLoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin/dashboard': {
-      id: '/admin/dashboard'
-      path: '/admin/dashboard'
-      fullPath: '/admin/dashboard'
-      preLoaderRoute: typeof AdminDashboardRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin/categories': {
-      id: '/admin/categories'
-      path: '/admin/categories'
-      fullPath: '/admin/categories'
-      preLoaderRoute: typeof AdminCategoriesRouteImport
+    '/admin/activity': {
+      id: '/admin/activity'
+      path: '/admin/activity'
+      fullPath: '/admin/activity'
+      preLoaderRoute: typeof AdminActivityRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/backlinks': {
@@ -608,32 +545,74 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminBacklinksRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/activity': {
-      id: '/admin/activity'
-      path: '/admin/activity'
-      fullPath: '/admin/activity'
-      preLoaderRoute: typeof AdminActivityRouteImport
+    '/admin/categories': {
+      id: '/admin/categories'
+      path: '/admin/categories'
+      fullPath: '/admin/categories'
+      preLoaderRoute: typeof AdminCategoriesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/industry/$slug/': {
-      id: '/industry/$slug/'
-      path: '/industry/$slug'
-      fullPath: '/industry/$slug/'
-      preLoaderRoute: typeof IndustrySlugIndexRouteImport
+    '/admin/dashboard': {
+      id: '/admin/dashboard'
+      path: '/admin/dashboard'
+      fullPath: '/admin/dashboard'
+      preLoaderRoute: typeof AdminDashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/pages/': {
-      id: '/admin/pages/'
-      path: '/admin/pages'
-      fullPath: '/admin/pages/'
-      preLoaderRoute: typeof AdminPagesIndexRouteImport
+    '/admin/login': {
+      id: '/admin/login'
+      path: '/admin/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/magazines/': {
-      id: '/admin/magazines/'
-      path: '/admin/magazines'
-      fullPath: '/admin/magazines/'
-      preLoaderRoute: typeof AdminMagazinesIndexRouteImport
+    '/admin/subscribers': {
+      id: '/admin/subscribers'
+      path: '/admin/subscribers'
+      fullPath: '/admin/subscribers'
+      preLoaderRoute: typeof AdminSubscribersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/users': {
+      id: '/admin/users'
+      path: '/admin/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AdminUsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/article/$slug': {
+      id: '/article/$slug'
+      path: '/article/$slug'
+      fullPath: '/article/$slug'
+      preLoaderRoute: typeof ArticleSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/category/$slug': {
+      id: '/category/$slug'
+      path: '/category/$slug'
+      fullPath: '/category/$slug'
+      preLoaderRoute: typeof CategorySlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/industry/': {
+      id: '/industry/'
+      path: '/industry'
+      fullPath: '/industry/'
+      preLoaderRoute: typeof IndustryIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/magazines/': {
+      id: '/magazines/'
+      path: '/magazines'
+      fullPath: '/magazines/'
+      preLoaderRoute: typeof MagazinesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/magazines/$id': {
+      id: '/magazines/$id'
+      path: '/magazines/$id'
+      fullPath: '/magazines/$id'
+      preLoaderRoute: typeof MagazinesIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/articles/': {
@@ -643,32 +622,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminArticlesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/industry/$slug/$sub': {
-      id: '/industry/$slug/$sub'
-      path: '/industry/$slug/$sub'
-      fullPath: '/industry/$slug/$sub'
-      preLoaderRoute: typeof IndustrySlugSubRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin/pages/$id': {
-      id: '/admin/pages/$id'
-      path: '/admin/pages/$id'
-      fullPath: '/admin/pages/$id'
-      preLoaderRoute: typeof AdminPagesIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin/magazines/new': {
-      id: '/admin/magazines/new'
-      path: '/admin/magazines/new'
-      fullPath: '/admin/magazines/new'
-      preLoaderRoute: typeof AdminMagazinesNewRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin/magazines/$id': {
-      id: '/admin/magazines/$id'
-      path: '/admin/magazines/$id'
-      fullPath: '/admin/magazines/$id'
-      preLoaderRoute: typeof AdminMagazinesIdRouteImport
+    '/admin/articles/$id': {
+      id: '/admin/articles/$id'
+      path: '/admin/articles/$id'
+      fullPath: '/admin/articles/$id'
+      preLoaderRoute: typeof AdminArticlesIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/articles/new': {
@@ -678,11 +636,53 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminArticlesNewRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/articles/$id': {
-      id: '/admin/articles/$id'
-      path: '/admin/articles/$id'
-      fullPath: '/admin/articles/$id'
-      preLoaderRoute: typeof AdminArticlesIdRouteImport
+    '/admin/magazines/': {
+      id: '/admin/magazines/'
+      path: '/admin/magazines'
+      fullPath: '/admin/magazines/'
+      preLoaderRoute: typeof AdminMagazinesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/magazines/$id': {
+      id: '/admin/magazines/$id'
+      path: '/admin/magazines/$id'
+      fullPath: '/admin/magazines/$id'
+      preLoaderRoute: typeof AdminMagazinesIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/magazines/new': {
+      id: '/admin/magazines/new'
+      path: '/admin/magazines/new'
+      fullPath: '/admin/magazines/new'
+      preLoaderRoute: typeof AdminMagazinesNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/pages/': {
+      id: '/admin/pages/'
+      path: '/admin/pages'
+      fullPath: '/admin/pages/'
+      preLoaderRoute: typeof AdminPagesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/pages/$id': {
+      id: '/admin/pages/$id'
+      path: '/admin/pages/$id'
+      fullPath: '/admin/pages/$id'
+      preLoaderRoute: typeof AdminPagesIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/industry/$slug/': {
+      id: '/industry/$slug/'
+      path: '/industry/$slug'
+      fullPath: '/industry/$slug/'
+      preLoaderRoute: typeof IndustrySlugIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/industry/$slug/$sub': {
+      id: '/industry/$slug/$sub'
+      path: '/industry/$slug/$sub'
+      fullPath: '/industry/$slug/$sub'
+      preLoaderRoute: typeof IndustrySlugSubRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/img/$': {
