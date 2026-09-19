@@ -28,16 +28,19 @@ export function isAllowedBucket(bucket: string) {
   return /^[a-z0-9_ %-]+$/i.test(decoded);
 }
 
+const SUPABASE_STORAGE_BASE = "https://zffpikiuavrwaszpxufl.supabase.co/storage/v1/object/public";
+
 /**
  * Stable, crawlable, permanently valid URL for a stored image.
- * Signed URLs expire, so they can never be used in og:image / sitemaps / RSS.
  */
 export function imageUrl(value: string | null | undefined): string {
   if (!value) return "";
+  if (/^https?:\/\//i.test(value)) return value;
   const ref = parseStorageRef(value);
-  if (!ref) return value; // already an external URL
-  return `/api/public/img/${encodeURIComponent(ref.bucket)}/${ref.path.split("/").map(encodeURIComponent).join("/")}`;
+  if (!ref) return value;
+  return `${SUPABASE_STORAGE_BASE}/${encodeURIComponent(ref.bucket)}/${ref.path.split("/").map(encodeURIComponent).join("/")}`;
 }
+
 
 export function absoluteUrl(path: string): string {
   if (!path) return "";
