@@ -9,7 +9,8 @@ type Props = Omit<React.ImgHTMLAttributes<HTMLImageElement>, "src"> & {
   fallbackSrc?: string;
 };
 
-const DEFAULT_FALLBACK = articlePlaceholderAsset.url || "/article-placeholder.png";
+const DEFAULT_FALLBACK = "/article-placeholder.svg";
+
 
 /**
  * Renders stored media through the stable public image endpoint so the URL is

@@ -53,7 +53,7 @@ export const Route = createFileRoute("/api/public/img/$")({
 
         // Fallback to direct public storage HTTP fetch if available
         if (!blob) {
-          const supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
+          const supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || "https://zffpikiuavrwaszpxufl.supabase.co";
           if (supabaseUrl) {
             try {
               const directUrl = `${supabaseUrl}/storage/v1/object/public/${encodeURIComponent(bucket)}/${path.split("/").map(encodeURIComponent).join("/")}`;
@@ -67,6 +67,7 @@ export const Route = createFileRoute("/api/public/img/$")({
             }
           }
         }
+
 
         if (!blob) return new Response("Not found", { status: 404 });
 
