@@ -40,7 +40,35 @@ const INITIAL_FORM: ArticleFormData = {
   published_at: null,
 };
 
-const MEDIA_BUCKET = "article-images";
+const EXACT_BUCKET = "CEO MEDIA MAGZINE PUNE";
+
+async function uploadToStorage(file: File): Promise<string> {
+  const ext = file.name.split(".").pop() || "png";
+  const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+
+  const { data, error } = await supabase.storage
+    .from(EXACT_BUCKET)
+    .upload(path, file, {
+      contentType: file.type,
+      cacheControl: "3600",
+      upsert: false,
+    });
+
+  if (error) {
+    console.error("Supabase Storage upload error:", error);
+    throw error;
+  }
+
+  const { data: publicUrlData } = supabase.storage
+    .from(EXACT_BUCKET)
+    .getPublicUrl(path);
+
+  if (!publicUrlData?.publicUrl) {
+    throw new Error("Failed to retrieve public URL from Supabase Storage.");
+  }
+
+  return publicUrlData.publicUrl;
+}
 
 export function ArticleForm({ id }: Props) {
   const navigate = useNavigate();
@@ -128,30 +156,17 @@ export function ArticleForm({ id }: Props) {
 
     if (selectedFile) {
       try {
-        const ext = selectedFile.name.split(".").pop() || "png";
-        const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-
-        const { error: uploadError } = await supabase.storage
-          .from(MEDIA_BUCKET)
-          .upload(path, selectedFile, {
-            contentType: selectedFile.type,
-            upsert: false,
-          });
-
-        if (uploadError) throw uploadError;
-
-        const { data: publicUrlData } = supabase.storage
-          .from(MEDIA_BUCKET)
-          .getPublicUrl(path);
-
-        finalImageUrl = publicUrlData.publicUrl;
+        finalImageUrl = await uploadToStorage(selectedFile);
       } catch (err: any) {
         setLoading(false);
         setPublishingState("idle");
-        toast.error(`Featured image upload failed: ${err?.message || "Please try again"}`);
+        console.error("Featured image upload error detail:", err);
+        toast.error(`Featured image upload failed: ${err?.message || "Please check storage permissions"}`);
         return;
       }
     }
+
+
 
     setPublishingState("saving");
 
