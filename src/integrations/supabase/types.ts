@@ -204,9 +204,11 @@ export type Database = {
         Row: {
           cover_image_url: string | null
           created_at: string
+          heyzine_url: string | null
           id: string
           issue_month: string | null
           issue_year: number | null
+          issuu_url: string | null
           pdf_file_url: string | null
           status: string
           title: string
@@ -214,9 +216,11 @@ export type Database = {
         Insert: {
           cover_image_url?: string | null
           created_at?: string
+          heyzine_url?: string | null
           id?: string
           issue_month?: string | null
           issue_year?: number | null
+          issuu_url?: string | null
           pdf_file_url?: string | null
           status?: string
           title: string
@@ -224,12 +228,38 @@ export type Database = {
         Update: {
           cover_image_url?: string | null
           created_at?: string
+          heyzine_url?: string | null
           id?: string
           issue_month?: string | null
           issue_year?: number | null
+          issuu_url?: string | null
           pdf_file_url?: string | null
           status?: string
           title?: string
+        }
+        Relationships: []
+      }
+      magazine_articles: {
+        Row: {
+          article_id: string
+          created_at: string
+          id: string
+          magazine_id: string
+          sort_order: number
+        }
+        Insert: {
+          article_id: string
+          created_at?: string
+          id?: string
+          magazine_id: string
+          sort_order?: number
+        }
+        Update: {
+          article_id?: string
+          created_at?: string
+          id?: string
+          magazine_id?: string
+          sort_order?: number
         }
         Relationships: []
       }

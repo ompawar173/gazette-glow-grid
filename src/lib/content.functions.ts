@@ -73,7 +73,35 @@ export const getMagazinePage = createServerFn({ method: "GET" })
       .eq("id", data.id)
       .eq("status", "published")
       .maybeSingle();
-    return { magazine };
+
+    let articles: any[] = [];
+    if (magazine) {
+      try {
+        const { data: rels } = await db
+          .from("magazine_articles")
+          .select("article_id, sort_order")
+          .eq("magazine_id", magazine.id)
+          .order("sort_order", { ascending: true });
+
+        if (rels && rels.length > 0) {
+          const articleIds = rels.map((r) => r.article_id);
+          const { data: fetchedArticles } = await db
+            .from("articles")
+            .select("id,slug,title,category,subcategory,excerpt,featured_image_url,author_name,published_at")
+            .in("id", articleIds)
+            .eq("status", "published");
+
+          if (fetchedArticles) {
+            const map = new Map(fetchedArticles.map((a) => [a.id, a]));
+            articles = articleIds.map((id) => map.get(id)).filter(Boolean);
+          }
+        }
+      } catch (e) {
+        console.error("[getMagazinePage] magazine_articles query error:", e);
+      }
+    }
+
+    return { magazine, articles };
   });
 
 export const getIndustryPage = createServerFn({ method: "GET" })
