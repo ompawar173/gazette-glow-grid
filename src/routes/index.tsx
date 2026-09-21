@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { Ticker } from "@/components/site/Ticker";
 import { ArticleCard, type ArticleLite } from "@/components/site/ArticleCard";
@@ -21,7 +22,7 @@ const DESCRIPTION =
   "CIO Media World delivers insight and reporting on AI, cybersecurity, cloud infrastructure, and the technology leaders shaping the digital economy.";
 
 export const Route = createFileRoute("/")({
-  loader: () => getHomePage(),
+  loader: () => getHomePage().catch(() => ({ articles: [], latestArticles: [], magazines: [], categories: [] })),
   head: ({ loaderData }) => {
     const articles = loaderData?.articles ?? [];
     const base = pageMeta({
@@ -62,18 +63,69 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
-  const data = Route.useLoaderData();
-  const articles = data.articles as unknown as (ArticleLite & { view_count?: number })[];
-  const latestArticles = data.latestArticles as unknown as ArticleLite[];
-  const magazines = data.magazines as unknown as MagazineLite[];
-  const categories = data.categories;
+  const loaderData = Route.useLoaderData();
+  const [articles, setArticles] = useState<(ArticleLite & { view_count?: number; is_latest?: boolean })[]>(
+    ((loaderData?.articles ?? []) as (ArticleLite & { view_count?: number; is_latest?: boolean })[])
+  );
+  const [magazines, setMagazines] = useState<MagazineLite[]>(
+    ((loaderData?.magazines ?? []) as MagazineLite[])
+  );
+  const [categories, setCategories] = useState<{ name: string; slug: string }[]>(
+    ((loaderData?.categories ?? []) as { name: string; slug: string }[])
+  );
+
+  useEffect(() => {
+    let isMounted = true;
+
+    Promise.all([
+      supabase
+        .from("articles")
+        .select("id,slug,title,category,subcategory,excerpt,featured_image_url,author_name,published_at,view_count,is_latest")
+        .eq("status", "published")
+        .order("published_at", { ascending: false })
+        .limit(50),
+      supabase
+        .from("magazines")
+        .select("id,title,cover_image_url,issue_month,issue_year")
+        .eq("status", "published")
+        .order("created_at", { ascending: false }),
+      supabase.from("categories").select("name,slug,parent_category").order("name"),
+    ])
+      .then(([{ data: fetchedArts }, { data: fetchedMags }, { data: fetchedCats }]) => {
+        if (!isMounted) return;
+        if (fetchedArts && fetchedArts.length > 0) {
+          setArticles(fetchedArts as (ArticleLite & { view_count?: number; is_latest?: boolean })[]);
+        }
+        if (fetchedMags && fetchedMags.length > 0) {
+          setMagazines(fetchedMags as MagazineLite[]);
+        }
+        if (fetchedCats && fetchedCats.length > 0) {
+          setCategories(fetchedCats as { name: string; slug: string }[]);
+        }
+      })
+      .catch((err) => {
+        console.error("Error fetching homepage data client-side:", err);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const latestArticles = useMemo(() => {
+    const selectedLatest = articles.filter((a) => a.is_latest);
+    return selectedLatest.length > 0 ? selectedLatest : articles.slice(0, 8);
+  }, [articles]);
 
   const slugFor = (name: string) =>
-    (categories as { name: string; slug: string }[]).find((c) => c.name === name)?.slug ??
+    categories.find((c) => c.name === name)?.slug ??
     name.toLowerCase().replace(/&/g, "").replace(/\s+/g, "-").replace(/-+/g, "-");
 
-  const trending = articles.slice(0, 12);
-  const mostRead = [...articles].sort((a, b) => (b.view_count ?? 0) - (a.view_count ?? 0)).slice(0, 12);
+  const trending = useMemo(() => articles.slice(0, 12), [articles]);
+  const mostRead = useMemo(
+    () => [...articles].sort((a, b) => (b.view_count ?? 0) - (a.view_count ?? 0)).slice(0, 12),
+    [articles]
+  );
   const grouped = useMemo(() => {
     const m: Record<string, ArticleLite[]> = {};
     for (const a of articles) (m[a.category] ??= []).push(a);
@@ -81,8 +133,8 @@ function Home() {
   }, [articles]);
 
   const featured = articles[0];
-  const secondary = articles.slice(1, 5);
-  const grid = articles.slice(5, 17);
+  const secondary = useMemo(() => articles.slice(1, 5), [articles]);
+  const grid = useMemo(() => articles.slice(5, 17), [articles]);
 
   return (
     <SiteLayout>
