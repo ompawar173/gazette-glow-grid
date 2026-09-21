@@ -6,6 +6,7 @@ import { uploadFile } from "@/lib/upload";
 import { logActivity } from "@/lib/activity";
 import { toast } from "sonner";
 import { StorageImage } from "@/components/site/StorageImage";
+import { triggerPublicationEmail } from "@/lib/newsletter.server";
 
 export function MagazineForm({ id }: { id?: string }) {
   const navigate = useNavigate();
@@ -33,10 +34,35 @@ export function MagazineForm({ id }: { id?: string }) {
     const payload = { ...form, status, issue_year: Number(form.issue_year) };
     delete payload.id; delete payload.created_at;
     let error;
-    if (id) ({ error } = await supabase.from("magazines").update(payload).eq("id", id));
-    else ({ error } = await supabase.from("magazines").insert(payload));
+    let savedMagId = id;
+    if (id) {
+      ({ error } = await supabase.from("magazines").update(payload).eq("id", id));
+    } else {
+      const { data, error: insertError } = await supabase.from("magazines").insert(payload).select("id").single();
+      error = insertError;
+      if (data?.id) savedMagId = data.id;
+    }
     setLoading(false);
     if (error) return toast.error(error.message);
+
+    if (status === "published") {
+      const result = await triggerPublicationEmail({
+        type: "magazine",
+        id: savedMagId || form.title,
+        title: form.title,
+        excerpt: `New issue published: ${form.issue_month || ""} ${form.issue_year || ""}`,
+        imageUrl: form.cover_image_url,
+        issue_month: form.issue_month,
+        issue_year: form.issue_year,
+      });
+
+      if (result.duplicate) {
+        toast.info("Duplicate send prevented: Magazine newsletter was already sent.");
+      } else if (result.success) {
+        toast.success(`Newsletter broadcast prepared for ${result.recipientCount} active subscriber(s).`);
+      }
+    }
+
     await logActivity(id ? "edited" : "created", "magazine", id ?? form.title);
     toast.success("Saved");
     navigate({ to: "/admin/magazines" });

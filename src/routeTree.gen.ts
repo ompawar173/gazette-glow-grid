@@ -19,11 +19,14 @@ import { Route as NewsSitemapDotxmlRouteImport } from './routes/news-sitemap[.]x
 import { Route as NewsletterRouteImport } from './routes/newsletter'
 import { Route as RssDotxmlRouteImport } from './routes/rss[.]xml'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as UnsubscribeRouteImport } from './routes/unsubscribe'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminActivityRouteImport } from './routes/admin.activity'
 import { Route as AdminBacklinksRouteImport } from './routes/admin.backlinks'
 import { Route as AdminCategoriesRouteImport } from './routes/admin.categories'
 import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
+import { Route as AdminDeliveryHistoryRouteImport } from './routes/admin.delivery-history'
+import { Route as AdminInquiriesRouteImport } from './routes/admin.inquiries'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminSubscribersRouteImport } from './routes/admin.subscribers'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
@@ -94,6 +97,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UnsubscribeRoute = UnsubscribeRouteImport.update({
+  id: '/unsubscribe',
+  path: '/unsubscribe',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/admin/',
   path: '/admin/',
@@ -117,6 +125,16 @@ const AdminCategoriesRoute = AdminCategoriesRouteImport.update({
 const AdminDashboardRoute = AdminDashboardRouteImport.update({
   id: '/admin/dashboard',
   path: '/admin/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminDeliveryHistoryRoute = AdminDeliveryHistoryRouteImport.update({
+  id: '/admin/delivery-history',
+  path: '/admin/delivery-history',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminInquiriesRoute = AdminInquiriesRouteImport.update({
+  id: '/admin/inquiries',
+  path: '/admin/inquiries',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
@@ -226,10 +244,13 @@ export interface FileRoutesByFullPath {
   '/newsletter': typeof NewsletterRoute
   '/rss.xml': typeof RssDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/unsubscribe': typeof UnsubscribeRoute
   '/admin/activity': typeof AdminActivityRoute
   '/admin/backlinks': typeof AdminBacklinksRoute
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/delivery-history': typeof AdminDeliveryHistoryRoute
+  '/admin/inquiries': typeof AdminInquiriesRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/subscribers': typeof AdminSubscribersRoute
   '/admin/users': typeof AdminUsersRoute
@@ -262,10 +283,13 @@ export interface FileRoutesByTo {
   '/newsletter': typeof NewsletterRoute
   '/rss.xml': typeof RssDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/unsubscribe': typeof UnsubscribeRoute
   '/admin/activity': typeof AdminActivityRoute
   '/admin/backlinks': typeof AdminBacklinksRoute
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/delivery-history': typeof AdminDeliveryHistoryRoute
+  '/admin/inquiries': typeof AdminInquiriesRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/subscribers': typeof AdminSubscribersRoute
   '/admin/users': typeof AdminUsersRoute
@@ -299,10 +323,13 @@ export interface FileRoutesById {
   '/newsletter': typeof NewsletterRoute
   '/rss.xml': typeof RssDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/unsubscribe': typeof UnsubscribeRoute
   '/admin/activity': typeof AdminActivityRoute
   '/admin/backlinks': typeof AdminBacklinksRoute
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/delivery-history': typeof AdminDeliveryHistoryRoute
+  '/admin/inquiries': typeof AdminInquiriesRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/subscribers': typeof AdminSubscribersRoute
   '/admin/users': typeof AdminUsersRoute
@@ -337,10 +364,13 @@ export interface FileRouteTypes {
     | '/newsletter'
     | '/rss.xml'
     | '/sitemap.xml'
+    | '/unsubscribe'
     | '/admin/activity'
     | '/admin/backlinks'
     | '/admin/categories'
     | '/admin/dashboard'
+    | '/admin/delivery-history'
+    | '/admin/inquiries'
     | '/admin/login'
     | '/admin/subscribers'
     | '/admin/users'
@@ -373,10 +403,13 @@ export interface FileRouteTypes {
     | '/newsletter'
     | '/rss.xml'
     | '/sitemap.xml'
+    | '/unsubscribe'
     | '/admin/activity'
     | '/admin/backlinks'
     | '/admin/categories'
     | '/admin/dashboard'
+    | '/admin/delivery-history'
+    | '/admin/inquiries'
     | '/admin/login'
     | '/admin/subscribers'
     | '/admin/users'
@@ -409,10 +442,13 @@ export interface FileRouteTypes {
     | '/newsletter'
     | '/rss.xml'
     | '/sitemap.xml'
+    | '/unsubscribe'
     | '/admin/activity'
     | '/admin/backlinks'
     | '/admin/categories'
     | '/admin/dashboard'
+    | '/admin/delivery-history'
+    | '/admin/inquiries'
     | '/admin/login'
     | '/admin/subscribers'
     | '/admin/users'
@@ -446,10 +482,13 @@ export interface RootRouteChildren {
   NewsletterRoute: typeof NewsletterRoute
   RssDotxmlRoute: typeof RssDotxmlRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  UnsubscribeRoute: typeof UnsubscribeRoute
   AdminActivityRoute: typeof AdminActivityRoute
   AdminBacklinksRoute: typeof AdminBacklinksRoute
   AdminCategoriesRoute: typeof AdminCategoriesRoute
   AdminDashboardRoute: typeof AdminDashboardRoute
+  AdminDeliveryHistoryRoute: typeof AdminDeliveryHistoryRoute
+  AdminInquiriesRoute: typeof AdminInquiriesRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminSubscribersRoute: typeof AdminSubscribersRoute
   AdminUsersRoute: typeof AdminUsersRoute
@@ -544,6 +583,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/unsubscribe': {
+      id: '/unsubscribe'
+      path: '/unsubscribe'
+      fullPath: '/unsubscribe'
+      preLoaderRoute: typeof UnsubscribeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/': {
       id: '/admin/'
       path: '/admin'
@@ -577,6 +623,20 @@ declare module '@tanstack/react-router' {
       path: '/admin/dashboard'
       fullPath: '/admin/dashboard'
       preLoaderRoute: typeof AdminDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/delivery-history': {
+      id: '/admin/delivery-history'
+      path: '/admin/delivery-history'
+      fullPath: '/admin/delivery-history'
+      preLoaderRoute: typeof AdminDeliveryHistoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/inquiries': {
+      id: '/admin/inquiries'
+      path: '/admin/inquiries'
+      fullPath: '/admin/inquiries'
+      preLoaderRoute: typeof AdminInquiriesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/login': {
@@ -726,10 +786,13 @@ const rootRouteChildren: RootRouteChildren = {
   NewsletterRoute: NewsletterRoute,
   RssDotxmlRoute: RssDotxmlRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  UnsubscribeRoute: UnsubscribeRoute,
   AdminActivityRoute: AdminActivityRoute,
   AdminBacklinksRoute: AdminBacklinksRoute,
   AdminCategoriesRoute: AdminCategoriesRoute,
   AdminDashboardRoute: AdminDashboardRoute,
+  AdminDeliveryHistoryRoute: AdminDeliveryHistoryRoute,
+  AdminInquiriesRoute: AdminInquiriesRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminSubscribersRoute: AdminSubscribersRoute,
   AdminUsersRoute: AdminUsersRoute,

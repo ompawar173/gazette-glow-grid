@@ -15,18 +15,43 @@ export const Route = createFileRoute("/contact")({
   component: Contact,
 });
 
+import { CheckCircle2 } from "lucide-react";
+
 function Contact() {
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
   const [busy, setBusy] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
+    setErrorMessage("");
     setBusy(true);
-    const { error } = await supabase.from("contact_messages").insert(form);
-    setBusy(false);
-    if (error) { toast.error("Could not send your message. Please try again."); return; }
-    toast.success("Thanks! Our team will get back to you shortly.");
-    setForm({ name: "", email: "", subject: "", message: "" });
+
+    try {
+      const { error } = await supabase.from("contact_messages").insert({
+        name: form.name.trim(),
+        email: form.email.trim().toLowerCase(),
+        subject: form.subject.trim() || null,
+        message: form.message.trim(),
+        is_read: false,
+      });
+
+      setBusy(false);
+
+      if (error) {
+        setErrorMessage("Could not send your message. Please verify your entries and try again.");
+        toast.error("Could not send your message. Please try again.");
+        return;
+      }
+
+      setSubmitted(true);
+      toast.success("Thank you! Your inquiry has been received.");
+      setForm({ name: "", email: "", subject: "", message: "" });
+    } catch {
+      setBusy(false);
+      setErrorMessage("An unexpected network error occurred. Please try again.");
+    }
   }
 
   return (
@@ -47,27 +72,57 @@ function Contact() {
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-[1fr_300px] gap-10 mt-8">
-          <form onSubmit={submit} className="space-y-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <Field id="contact-name" label="Full name" value={form.name} onChange={(v) => setForm({ ...form, name: v })} required />
-              <Field id="contact-email" label="Email address" type="email" value={form.email} onChange={(v) => setForm({ ...form, email: v })} required />
-            </div>
-            <Field id="contact-subject" label="Subject" value={form.subject} onChange={(v) => setForm({ ...form, subject: v })} required />
-            <div>
-              <label htmlFor="contact-message" className="text-xs font-bold uppercase tracking-widest text-navy">Message</label>
-              <textarea
-                id="contact-message"
-                required
-                rows={7}
-                value={form.message}
-                onChange={(e) => setForm({ ...form, message: e.target.value })}
-                className="w-full mt-1 px-3 py-2 border-2 border-border focus:border-navy outline-none bg-background text-sm"
-              />
-            </div>
-            <button disabled={busy} className="bg-brand text-brand-foreground px-8 py-3 text-sm font-bold uppercase tracking-[0.2em] hover:bg-primary transition-colors disabled:opacity-60">
-              {busy ? "Sending…" : "Send message"}
-            </button>
-          </form>
+          <div>
+            {submitted ? (
+              <div aria-live="polite" className="p-8 bg-[#071A2F] text-white rounded-lg border border-[#16A9E8]/30 shadow-lg animate-in fade-in space-y-3">
+                <div className="flex items-center gap-3 text-[#16A9E8]">
+                  <CheckCircle2 size={28} />
+                  <h2 className="text-xl font-bold text-white">Thank You for Reaching Out!</h2>
+                </div>
+                <p className="text-sm text-slate-300 leading-relaxed">
+                  Your inquiry has been successfully transmitted to the <strong>CIO Media World</strong> newsroom desk.
+                  Our editorial and partnership team will review your message and get back to you within two business days.
+                </p>
+                <button
+                  onClick={() => setSubmitted(false)}
+                  className="mt-4 bg-[#1267C7] hover:bg-[#0E52A0] text-white px-5 py-2.5 text-xs font-bold uppercase tracking-wider rounded transition-colors"
+                >
+                  Send another message
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={submit} className="space-y-4">
+                {errorMessage && (
+                  <div role="alert" className="p-4 bg-red-50 text-red-700 text-sm rounded border border-red-200">
+                    {errorMessage}
+                  </div>
+                )}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <Field id="contact-name" label="Full name" value={form.name} onChange={(v) => setForm({ ...form, name: v })} required />
+                  <Field id="contact-email" label="Email address" type="email" value={form.email} onChange={(v) => setForm({ ...form, email: v })} required />
+                </div>
+                <Field id="contact-subject" label="Subject" value={form.subject} onChange={(v) => setForm({ ...form, subject: v })} required />
+                <div>
+                  <label htmlFor="contact-message" className="text-xs font-bold uppercase tracking-widest text-navy">Message</label>
+                  <textarea
+                    id="contact-message"
+                    required
+                    rows={7}
+                    value={form.message}
+                    onChange={(e) => setForm({ ...form, message: e.target.value })}
+                    className="w-full mt-1 px-3 py-2 border-2 border-border focus:border-navy outline-none bg-background text-sm"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  disabled={busy}
+                  className="bg-[#1267C7] hover:bg-[#0E52A0] text-white px-8 py-3 text-sm font-bold uppercase tracking-[0.2em] transition-colors disabled:opacity-60 rounded-sm"
+                >
+                  {busy ? "Sending…" : "Send message"}
+                </button>
+              </form>
+            )}
+          </div>
 
           <aside className="bg-secondary/60 border border-border p-6 h-fit space-y-6">
             <div>

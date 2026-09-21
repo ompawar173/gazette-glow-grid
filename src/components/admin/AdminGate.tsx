@@ -1,7 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { useNavigate, Link, useRouterState } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
-import { LayoutDashboard, FileText, BookOpen, Tag, Mail, Activity, LogOut, ExternalLink, Link2 as LinkIcon, Users, Files } from "lucide-react";
+import { LayoutDashboard, FileText, BookOpen, Tag, Mail, Activity, LogOut, ExternalLink, Link2 as LinkIcon, Users, Files, MessageSquare, History } from "lucide-react";
 
 interface Props { children: ReactNode; title: string; }
 
@@ -50,7 +50,9 @@ export function AdminGate({ children, title }: Props) {
     { to: "/admin/pages", label: "Pages", icon: Files, show: can("pages") },
     { to: "/admin/categories", label: "Categories", icon: Tag, show: can("industries") },
     { to: "/admin/backlinks", label: "Backlinks", icon: LinkIcon, show: can("backlinks") },
-    { to: "/admin/subscribers", label: "Subscribers", icon: Mail, show: can("subscribers") },
+    { to: "/admin/inquiries", label: "Contact Inquiries", icon: MessageSquare, show: can("subscribers") || isAdmin },
+    { to: "/admin/subscribers", label: "Subscribers", icon: Mail, show: can("subscribers") || isAdmin },
+    { to: "/admin/delivery-history", label: "Delivery History", icon: History, show: can("subscribers") || isAdmin },
     { to: "/admin/users", label: "Users", icon: Users, show: isAdmin },
     { to: "/admin/activity", label: "Activity Log", icon: Activity, show: isAdmin },
   ].filter((n) => n.show);
