@@ -46,32 +46,42 @@ export function ExecutiveBriefModal() {
     setLoading(true);
 
     try {
-      // Save subscriber to database
-      const { error } = await supabase.from("newsletter_subscribers").insert({
+      // Save subscriber to database with fallback if schema cache is un-reloaded
+      let { error } = await supabase.from("newsletter_subscribers").insert({
         email: cleanEmail,
         name: cleanName || null,
         status: "subscribed",
-        subscribed_at: new Date().toISOString(),
       } as any);
+
+      if (error && (error.message?.includes("schema cache") || error.message?.includes("column"))) {
+        const fallbackRes = await supabase.from("newsletter_subscribers").insert({
+          email: cleanEmail,
+        });
+        error = fallbackRes.error;
+      }
 
       setLoading(false);
 
       if (error) {
-        if (error.code === "23505") {
-          // Unique violation — user is already subscribed
-          setSubmitted(true);
-          localStorage.setItem("cio_eb_subscribed", "true");
+        if (
+          error.code === "23505" ||
+          error.message?.toLowerCase().includes("duplicate") ||
+          error.message?.toLowerCase().includes("unique")
+        ) {
+          setErrorMsg("You're already subscribed to the Executive Brief.");
           return;
         }
-        setErrorMsg("Could not process subscription. Please try again.");
+        console.error("[ExecutiveBriefModal] Subscription failed:", error);
+        setErrorMsg("Unable to subscribe right now. Please try again.");
         return;
       }
 
       setSubmitted(true);
       localStorage.setItem("cio_eb_subscribed", "true");
-    } catch {
+    } catch (err) {
+      console.error("[ExecutiveBriefModal] Unexpected exception:", err);
       setLoading(false);
-      setErrorMsg("An unexpected error occurred. Please try again.");
+      setErrorMsg("Unable to subscribe right now. Please try again.");
     }
   };
 

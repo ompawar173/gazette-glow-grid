@@ -126,13 +126,15 @@ function ArticlePage() {
     }
 
     setLoading(true);
-    supabase
-      .from("articles")
-      .select("*")
-      .eq("slug", cleanSlug)
-      .eq("status", "published")
-      .maybeSingle()
-      .then(async ({ data: fetchedArt }) => {
+    (async () => {
+      try {
+        const { data: fetchedArt } = await supabase
+          .from("articles")
+          .select("*")
+          .eq("slug", cleanSlug)
+          .eq("status", "published")
+          .maybeSingle();
+
         if (!isMounted) return;
         let finalArt = fetchedArt;
 
@@ -176,11 +178,12 @@ function ArticlePage() {
         } else {
           setArticle(null);
         }
-        setLoading(false);
-      })
-      .catch(() => {
+      } catch (err) {
+        console.error("Error loading article:", err);
+      } finally {
         if (isMounted) setLoading(false);
-      });
+      }
+    })();
 
     return () => {
       isMounted = false;

@@ -41,7 +41,7 @@ export const requireSupabaseAuth = createMiddleware({ type: 'function' }).server
         ...(!SUPABASE_URL ? ['SUPABASE_URL'] : []),
         ...(!SUPABASE_PUBLISHABLE_KEY ? ['SUPABASE_PUBLISHABLE_KEY'] : []),
       ];
-      const message = `Missing Supabase environment variable(s): ${missing.join(', ')}. Connect Supabase in Lovable Cloud.`;
+      const message = `Missing Supabase environment variable(s): ${missing.join(', ')}.`;
       console.error(`[Supabase] ${message}`);
       throw new Error(message);
     }
@@ -89,20 +89,17 @@ export const requireSupabaseAuth = createMiddleware({ type: 'function' }).server
       }
     );
 
-    const { data, error } = await supabase.auth.getClaims(token);
-    if (error || !data?.claims) {
-      throw new Error('Unauthorized: Invalid token');
-    }
-
-    if (!data.claims.sub) {
-      throw new Error('Unauthorized: No user ID found in token');
+    const { data: authData, error: authError } = await supabase.auth.getUser(token);
+    if (authError || !authData?.user) {
+      throw new Error('Your session has expired. Please sign in again.');
     }
 
     return next({
       context: {
         supabase,
-        userId: data.claims.sub,
-        claims: data.claims,
+        userId: authData.user.id,
+        user: authData.user,
+        claims: authData.user.app_metadata ?? {},
       },
     });
   },

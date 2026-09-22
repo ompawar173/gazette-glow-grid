@@ -1,7 +1,7 @@
 import { supabase } from "@/integrations/supabase/client";
 
 export interface PublicationPayload {
-  type: "article" | "magazine";
+  type: "article" | "magazine" | "digest";
   id: string;
   title: string;
   excerpt?: string | null;

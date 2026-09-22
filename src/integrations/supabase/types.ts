@@ -267,22 +267,29 @@ export type Database = {
         Row: {
           email: string
           id: string
+          name: string | null
+          status: string | null
           subscribed_at: string
         }
         Insert: {
           email: string
           id?: string
+          name?: string | null
+          status?: string | null
           subscribed_at?: string
         }
         Update: {
           email?: string
           id?: string
+          name?: string | null
+          status?: string | null
           subscribed_at?: string
         }
         Relationships: []
       }
       page_views: {
         Row: {
+          browser: string | null
           city: string | null
           country: string | null
           created_at: string
@@ -292,8 +299,10 @@ export type Database = {
           referrer: string | null
           region: string | null
           session_id: string | null
+          visitor_id: string | null
         }
         Insert: {
+          browser?: string | null
           city?: string | null
           country?: string | null
           created_at?: string
@@ -303,8 +312,10 @@ export type Database = {
           referrer?: string | null
           region?: string | null
           session_id?: string | null
+          visitor_id?: string | null
         }
         Update: {
+          browser?: string | null
           city?: string | null
           country?: string | null
           created_at?: string
@@ -314,6 +325,7 @@ export type Database = {
           referrer?: string | null
           region?: string | null
           session_id?: string | null
+          visitor_id?: string | null
         }
         Relationships: []
       }
@@ -359,34 +371,43 @@ export type Database = {
       team_members: {
         Row: {
           active: boolean
+          company_name: string | null
           created_at: string
           created_by: string | null
+          designation: string | null
           email: string
           full_name: string | null
           id: string
           permissions: Json
+          role: string | null
           updated_at: string
           user_id: string
         }
         Insert: {
           active?: boolean
+          company_name?: string | null
           created_at?: string
           created_by?: string | null
+          designation?: string | null
           email: string
           full_name?: string | null
           id?: string
           permissions?: Json
+          role?: string | null
           updated_at?: string
           user_id: string
         }
         Update: {
           active?: boolean
+          company_name?: string | null
           created_at?: string
           created_by?: string | null
+          designation?: string | null
           email?: string
           full_name?: string | null
           id?: string
           permissions?: Json
+          role?: string | null
           updated_at?: string
           user_id?: string
         }
